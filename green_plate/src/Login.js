@@ -1,6 +1,7 @@
 // Login.js
 import React, { useState } from 'react';
 import './Login.css'; // Make sure to create this CSS file
+import MenuBar from './MenuBar';
 
 function Login() {
     const [username, setUsername] = useState('');
@@ -24,6 +25,7 @@ function Login() {
 
     return (
         <div className="login-container">
+            <MenuBar />
             <form className="login-form" onSubmit={handleSubmit}>
                 <h2>Login</h2>
                 {error && <p className="error">{error}</p>}

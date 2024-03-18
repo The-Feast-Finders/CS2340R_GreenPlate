@@ -1,8 +1,22 @@
-.main-content {
-    padding-top: 30px;
-}
-
 .frame {
     padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    padding: 20px;
+    background-color: #f1f9ed; /* Light grey background */
 }
 
+.frame h1 {
+    font-size: 2.5em;
+    color: #333; /* Dark grey text */
+    margin-bottom: 20px;
+}
+
+.frame p {
+    font-size: 1.2em;
+    color: #666; /* Medium grey text */
+}

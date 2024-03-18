@@ -1,25 +1,46 @@
 .navigation-bar {
-    background-color: green; /* Green background */
-    padding: 10px 0; /* Some padding */
-    display: flex; /* Align items in a row */
-    justify-content: space-around; /* Space out links */
-    position: fixed; /* Fix position to the top */
-    width: 100%; /* Full width */
-    top: 0; /* Stick to the top */
-    z-index: 1000; /* Ensure it's above other content */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: #ffffff; /* Light green background */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* subtle shadow for depth */
+    border-radius: 8px; /* Rounded corners for a softer look */
 }
 
-.navigation-bar a {
-    color: white; /* White text for links */
-    text-decoration: none; /* No underline */
-    padding: 0 15px; /* Spacing around links */
+.nav-logo img {
+    height: 60px; /* Slightly larger logo */
 }
 
-.main-content {
-    padding-top: 30px;
+.nav-links {
+    display: flex;
+    gap: 60px; /* Space between links */
+    align-items: center;
 }
 
-.frame {
-    padding-top: 20px;
+.nav-links a {
+    text-decoration: none;
+    color: #2fbf45; /* Darker green for contrast */
+    font-size: 18px; /* Larger font size */
+    font-weight: 500; /* Medium font weight for readability */
+    transition: color 0.3s; /* Smooth transition for hover effect */
 }
 
+.nav-links a:hover {
+    color: #1e4437; /* Darker shade on hover for interaction feedback */
+}
+
+.nav-profile img {
+    height: 50px; /* Slightly larger profile icon */
+    cursor: pointer; /* Indicates that the icon is clickable */
+}
+
+/* Optional: Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .nav-links {
+        gap: 20px; /* Less gap on smaller screens */
+    }
+    .nav-links a {
+        font-size: 16px; /* Smaller font size on smaller screens */
+    }
+}

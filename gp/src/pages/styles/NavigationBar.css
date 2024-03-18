@@ -2,19 +2,21 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 40px;
-    background-color: #ffffff; /* Light green background */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* subtle shadow for depth */
+    padding: 7px 40px;
+    background-color: #ffffff; /* White background */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
     border-radius: 8px; /* Rounded corners for a softer look */
 }
 
 .nav-logo img {
-    height: 60px; /* Slightly larger logo */
+    height: 80px; /* Slightly larger logo */
 }
+
+
 
 .nav-links {
     display: flex;
-    gap: 60px; /* Space between links */
+    gap: 0px; /* Space between links */
     align-items: center;
 }
 
@@ -23,19 +25,32 @@
     color: #2fbf45; /* Darker green for contrast */
     font-size: 18px; /* Larger font size */
     font-weight: 500; /* Medium font weight for readability */
-    transition: color 0.3s; /* Smooth transition for hover effect */
+    transition: all 0.3s; /* Smooth transition for hover effects */
+    padding: 10px 15px; /* Increased padding inside the link */
+    border: 2px solid transparent; /* Transparent border to prevent shifting */
+    border-radius: 4px; /* Slightly rounded corners for the link */
+    margin: 0 5px; /* Optional: Add some space between links */
 }
 
 .nav-links a:hover {
-    color: #1e4437; /* Darker shade on hover for interaction feedback */
+    background-color: #ffffff; /* Light background for the rectangle */
+    border: 3px solid #2fbf45; /* Visible border for the rectangle */
+    border-radius: 20px; /* Slightly rounded corners for the rectangle */
+    padding: 20px 30px;
 }
 
 .nav-profile img {
-    height: 50px; /* Slightly larger profile icon */
+    height: 50px; /* Initial size of the profile icon */
     cursor: pointer; /* Indicates that the icon is clickable */
+    transition: height 0.3s ease, padding-right 0.3s ease; /* Smooth transition for the hover effect */
+    padding-right: 5px; /* Initial padding-right */
 }
 
-/* Optional: Responsive design for smaller screens */
+.nav-profile img:hover {
+    height: 60px; /* Increase the height on hover */
+    padding-right: 0px;
+}
+/* Responsive design for smaller screens */
 @media (max-width: 768px) {
     .nav-links {
         gap: 20px; /* Less gap on smaller screens */

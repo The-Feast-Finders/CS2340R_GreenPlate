@@ -55,3 +55,20 @@ button {
 button:hover {
     background-color: #29ac3d; /* Slightly darker blue on hover */
 }
+
+.logout-button-container {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    background-color: #f8f8f8; /* You can change the color as needed */
+}
+
+.logout-button-container button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}

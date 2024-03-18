@@ -1,42 +1,61 @@
 import React, { useEffect, useState } from 'react';  
-import '../pages/styles/UserInfo.css'; // Import CSS for styling
-import { getFirestore, doc, getDoc } from 'firebase/firestore';//necessary for read, write,listen, and query
-import { getAuth } from 'firebase/auth'; //needed to identify current user
+import '../pages/styles/UserInfo.css';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 
-const UserInfo = () => { //starting main functional component
-  const [userInfo, setUserInfo] = useState({ height: '', weight: '', gender: '' }); //initializing user info with default empty string
-  const auth = getAuth(); //initialie instance to acces curr users state
-  const db = getFirestore(); // initialize database instance to fetch data
+const UserInfo = () => {
+    const [userInfo, setUserInfo] = useState({ height: '', weight: '', gender: '' });
+    const [userBMR, setUserBMR] = useState(null);
 
-  useEffect(() => { // used to execute side effect component
-    const fetchUserInfo = async () => { //asynchronous to fetch curr users info from firebase
-      const user = auth.currentUser; // sets user = curr user signed in 
-      if (user) { //checks if there is a current user
-        const docRef = doc(db, "users", user.uid); // Reference to the user's document
-        const docSnap = await getDoc(docRef); // fetches curr "snapshot" of state
+    const auth = getAuth();
+    const db = getFirestore();
 
-        if (docSnap.exists()) { // checks if doc exists
-          setUserInfo(docSnap.data()); // if it does, update UserInfo state with the data
-        } else { //else
-          console.log("No such document!"); //message indicating document does not exist
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            const user = auth.currentUser;
+            if (user) {
+                const docRef = doc(db, "users", user.uid);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const userData = docSnap.data();
+                    if (userData.weight && userData.height && userData.gender) {
+                        setUserInfo(userData);
+                        setUserBMR(calculateBMR(userData.weight, userData.height, userData.gender));
+                    } else {
+                        console.log("Incomplete user data!");
+                    }
+                } else {
+                    console.log("No such document!");
+                }
+            }
+        };
+
+        fetchUserInfo();
+    }, [auth, db]);
+
+    const calculateBMR = (weight, height, gender) => {
+        if (!weight || !height || !gender) {
+            return null; // Return null if any of the values is missing or invalid
         }
-      }
+        let BMR = 0;
+        if (gender === 'male') {
+            BMR = 13.397 * weight + 4.799 * height - 136.248 + 88.362;
+        } else if (gender === 'female') {
+            BMR = 9.247 * weight + 3.098 * height - 103.92 + 447.593;
+        }
+        return BMR.toFixed(2);
     };
 
-    fetchUserInfo(); //executes fetching process
-  }, [auth, db]); //code will re run if any of these change
-
-  return ( //starts return 
-    <div className="UserInfo"> {/* div element of class UserInfo */}
-      <h3>User Information:</h3> {/* header*/}
-      <p>Height: {userInfo.height}</p> {/* displays info*/}
-      <p>Weight: {userInfo.weight}</p> {/* displays info*/}
-      <p>Gender: {userInfo.gender}</p> {/* displays info*/}
-    </div>
-  );
+    return (
+        <div className="UserInfo">
+            <h3>User Information:</h3>
+            <p>Height: {userInfo.height || 'Loading...'}</p>
+            <p>Weight: {userInfo.weight || 'Loading...'}</p>
+            <p>Gender: {userInfo.gender || 'Loading...'}</p>
+            <h4>Your Calorie Goal: {userBMR ? `${userBMR} calories/day` : 'Calculating...'}</h4>
+        </div>
+    );
 };
 
 export default UserInfo;
-
-//Men: BMR = 13.397W + 4.799H - 136.248 + 88.362
-//Women: BMR = 9.247W + 3.098H - 103.92 + 447.593

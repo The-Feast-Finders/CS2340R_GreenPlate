@@ -1,0 +1,16 @@
+.navigation-bar {
+    background-color: green; /* Green background */
+    padding: 10px 0; /* Some padding */
+    display: flex; /* Align items in a row */
+    justify-content: space-around; /* Space out links */
+    position: fixed; /* Fix position to the top */
+    width: 100%; /* Full width */
+    top: 0; /* Stick to the top */
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+.navigation-bar a {
+    color: white; /* White text for links */
+    text-decoration: none; /* No underline */
+    padding: 0 15px; /* Spacing around links */
+}

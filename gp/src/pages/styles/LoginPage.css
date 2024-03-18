@@ -37,3 +37,13 @@
   border-radius: 4px;
   cursor: pointer;
 }
+
+.go-home-button {
+  margin-top: 20px;
+  background-color: #4CAF50; /* Green background */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}

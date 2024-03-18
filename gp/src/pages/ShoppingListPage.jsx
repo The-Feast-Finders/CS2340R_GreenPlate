@@ -1,18 +1,18 @@
 import React from 'react';
 import NavigationBar from '../components/NavigationBar';
-import '../pages/styles/HomePage.css'
+import '../pages/styles/ShoppingListPage.css'
 
-const HomePage = () => {
+const ShoppingList = () => {
     return (
         <div>
             <NavigationBar />
             <div className='frame'> 
-                <h1>Home Screen</h1>
-                <p>Welcome to the Home Screen!</p>
+                <h1>Shopping List</h1>
+                <p>Welcome to the Shopping List</p>
             </div>
         
         </div>
     );
 };
 
-export default HomePage;
+export default ShoppingList;

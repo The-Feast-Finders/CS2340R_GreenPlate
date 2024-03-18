@@ -1,7 +1,6 @@
 import React from 'react';
 import RegistrationForm from '../components/RegistrationForm';
 import './styles/LogRegPage.css';
-import firebase from '../firebase';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';

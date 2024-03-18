@@ -2,6 +2,7 @@ import React from 'react';
 import LoginForm from '../components/LoginForm';
 import './styles/LogRegPage.css';
 import firebase from '../firebase.js';
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
 
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -24,6 +25,8 @@ const LoginPage = () => {
                 setError('Login failed: ' + error.message);
             });
     };
+
+    
 
     return (
         <div className="login-container">

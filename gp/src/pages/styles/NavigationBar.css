@@ -14,3 +14,12 @@
     text-decoration: none; /* No underline */
     padding: 0 15px; /* Spacing around links */
 }
+
+.main-content {
+    padding-top: 30px;
+}
+
+.frame {
+    padding-top: 20px;
+}
+

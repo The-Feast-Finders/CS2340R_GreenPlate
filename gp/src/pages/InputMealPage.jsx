@@ -3,6 +3,7 @@ import NavigationBar from '../components/NavigationBar';
 import UserInfo from '../components/UserInfo';
 import InputMeal from '../components/InputMeal';
 import './styles/InputMeal.css';
+import PieGraph from '../components/PieGraph';
 
 const InputMealPage = () => {
     return (

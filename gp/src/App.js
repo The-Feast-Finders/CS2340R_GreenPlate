@@ -13,9 +13,8 @@ import ProfilePage from './pages/ProfilePage';
 function App() {
   return (
     <Router>
-      <NavigationBar />
       <Routes>
-      <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<LoginPage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/register" element={<RegistrationPage />} />
         <Route path="/login" element={<LoginPage />} />

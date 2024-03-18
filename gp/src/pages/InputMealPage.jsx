@@ -5,7 +5,7 @@ import NavigationBar from '../components/NavigationBar';
 const InputMeal = () => {
     return (
         <div>
-            
+            <NavigationBar />
             <div className='frame'> 
                 <h1>Input Meal</h1>
                 <p>Welcome to the Input Meal screen!</p>

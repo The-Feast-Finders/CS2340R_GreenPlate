@@ -1,0 +1,17 @@
+.userInfo {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 5px;
+    margin: 20px 0 20px 20px;
+    background-color: #f8f8f8;
+}
+
+.userInfo h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.userInfo p {
+    margin: 10px 0;
+    color: #666;
+}

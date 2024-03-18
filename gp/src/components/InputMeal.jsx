@@ -1,16 +1,9 @@
 import React, { useState } from 'react';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore, doc, setDoc, collection, addDoc, Timestamp } from 'firebase/firestore';
 
-const InputMeal = () => {
+const InputMeal = ({ user }) => {
     const [mealName, setMealName] = useState('');
     const [calories, setCalories] = useState('');
-    const [user, setUser] = useState(null);
-
-    const auth = getAuth();
-    onAuthStateChanged(auth, (currentUser) => {
-        setUser(currentUser);
-    });
 
     const handleSubmit = async (event) => {
         event.preventDefault();

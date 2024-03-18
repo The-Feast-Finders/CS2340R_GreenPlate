@@ -1,6 +1,7 @@
 import React from 'react';
 import NavigationBar from '../components/NavigationBar';
 //import './styles/IngredientPage.css'
+import InputMeal from '../components/InputMeal'
 
 const IngredientPage = () => {
     return (
@@ -9,8 +10,7 @@ const IngredientPage = () => {
             <div className='frame'> 
                 <h1>Ingredient Page</h1>
                 <p>Welcome to the Ingredient Page!</p>
-            </div>
-        
+            </div>        
         </div>
     );
 };

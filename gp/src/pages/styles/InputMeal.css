@@ -1,0 +1,21 @@
+.inputMealPageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    max-width: 600px;
+    margin: auto;
+}
+
+.frame {
+    display: flex;
+
+}
+
+.container {
+    border: 2px solid #000; /* Creates a border around the container */
+    border-radius: 10px; /* Rounds the corners of the border */
+    width: auto; /* Adjust the width as needed or keep it auto */
+    margin-left: 0; /* Aligns the container to the left */
+    padding: 20px; /* Adds some space inside the container */
+}

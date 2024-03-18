@@ -2,6 +2,7 @@ import React from 'react';
 import './styles/ProfilePage.css'
 import NavigationBar from '../components/NavigationBar';
 import InputData from '../components/InputData'
+import UserInfo from '../components/UserInfo';
 
 const ProfilePage = ({ userData, onUpdate }) => {
     // userData should contain the user's information such as meals, height, etc.
@@ -19,6 +20,7 @@ const ProfilePage = ({ userData, onUpdate }) => {
             <NavigationBar />
             <div className="profile-page">
                 <h1>Welcome to Your Profile!</h1>
+                <UserInfo userData={userData} />
                 <InputData />
             </div>
             <div className="logout-button-container">

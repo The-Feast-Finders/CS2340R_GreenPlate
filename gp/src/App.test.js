@@ -2,6 +2,7 @@ import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import App from './App';
 import InputMeal from './components/InputMeal';
 import LoginPage from './LoginPage';
+import ProfilePage from './ProfilePage';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
 test('renders learn react link', () => {
@@ -159,4 +160,46 @@ it('should handle registration failure correctly', async () => {
       `Registration failed: ${errorMessage}`
     ); // Expecting setError to be called with appropriate error message
   });
+});
+
+//
+//ProfilePage Tests
+//
+// onAuthStateChanged
+jest.mock('firebase/auth', () => ({
+  getAuth: jest.fn(),
+  onAuthStateChanged: jest.fn(),
+}));
+
+it('displays user data when user is signed in', () => {
+  // currentUser data
+  const currentUser = {
+    displayName: 'Test User',
+    email: 'test@example.com',
+    uid: '123',
+  };
+
+  // onAuthStateChanged to call the callback with a user
+  onAuthStateChanged.mockImplementation((auth, callback) => {
+    callback(currentUser);
+  });
+
+  const { getByText } = render(<ProfilePage />);
+
+  // user data is correctly displayed
+  expect(getByText('Welcome to Your Profile!')).toBeInTheDocument();
+  expect(getByText('Name: Test User')).toBeInTheDocument();
+  expect(getByText('Email: test@example.com')).toBeInTheDocument();
+});
+
+it('displays loading message when no user is signed in', () => {
+  // onAuthStateChanged to call the callback with no user
+  onAuthStateChanged.mockImplementation((auth, callback) => {
+    callback(null);
+  });
+
+  const { getByText } = render(<ProfilePage />);
+
+  // loading message is displayed
+  expect(getByText('Loading user data...')).toBeInTheDocument();
 });

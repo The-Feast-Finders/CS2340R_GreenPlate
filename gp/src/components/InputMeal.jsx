@@ -7,28 +7,31 @@ const InputMeal = ({ user }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+    
         if (user) {
             const mealData = {
                 name: mealName,
                 calories: parseInt(calories, 10),
                 timestamp: Timestamp.fromDate(new Date()) // Save the current time as a Firestore Timestamp
             };
-
+    
             // Update user's meal array
             const userRef = doc(getFirestore(), 'users', user.uid);
             await setDoc(userRef, { meals: mealData }, { merge: true });
-
+    
             // Add meal to general meals collection
             const mealsRef = collection(getFirestore(), 'meals');
             await addDoc(mealsRef, { ...mealData, userId: user.uid });
-
+    
             console.log('Meal added successfully');
-            // Reset the form or provide feedback to the user
+    
+            // Reload the page
+            window.location.reload();
         } else {
             console.log('User is not logged in');
         }
     };
+    
 
     return (
         <form onSubmit={handleSubmit}>

@@ -1,30 +1,23 @@
-import React, { useState } from 'react';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import React, { useState, useEffect } from 'react';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
 
-const InputData = () => {
+const InputData = ({ user }) => {
     const [weight, setWeight] = useState('');
     const [gender, setGender] = useState('');
     const [height, setHeight] = useState('');
-    const [meals, setMeals] = useState([]); // Assuming this is an array
 
-    // Authenticate and set user
-    const auth = getAuth();
-    const [user, setUser] = useState(null);
+    const navigate = useNavigate();
 
-    onAuthStateChanged(auth, (currentUser) => {
-        setUser(currentUser);
-    });
-
-    const handleSave = (event) => {
-        event.preventDefault(); // Prevents the default form submit action
+    const handleSave = async (event) => {
+        event.preventDefault();
 
         if (user) {
-            const userData = { weight, gender, height, meals };
-            saveUserData(user.uid, userData);
+            const userData = { weight, gender, height };
+            await saveUserData(user.uid, userData);
         } else {
             console.log("No user logged in");
-            // Handle the case where there is no user logged in
+            
         }
     };
 
@@ -38,6 +31,8 @@ const InputData = () => {
             console.error('Error saving user data:', error);
         }
     };
+
+    
 
     return (
         <form onSubmit={handleSave}>

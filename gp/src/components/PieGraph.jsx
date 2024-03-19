@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
+import { Pie } from 'react-chartjs-2';
+import { getFirestore, collection, query, where, onSnapshot } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
+import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
+
+Chart.register(ArcElement, Tooltip, Legend);
 
 const PieGraph = () => {
-    const [mealData, setMealData] = useState([]);
+    const [chartData, setChartData] = useState({
+        labels: [],
+        datasets: []
+    });
+
     const db = getFirestore();
     const auth = getAuth();
     const user = auth.currentUser;
@@ -21,35 +29,39 @@ const PieGraph = () => {
                 where("timestamp", "<=", end)
             );
 
-            getDocs(q)
-                .then(querySnapshot => {
-                    const mealsFromLastDay = querySnapshot.docs.map(doc => {
-                        const meal = doc.data();
-                        console.log(`Meal: ${meal.name}, Calories: ${meal.calories}`); // Debugging output
-                        return { ...meal, id: doc.id };
-                    });
-                    setMealData(mealsFromLastDay);
-                })
-                .catch(error => {
-                    console.error("Error fetching meals: ", error);
+            const unsubscribe = onSnapshot(q, querySnapshot => {
+                const mealsFromLastDay = querySnapshot.docs.map(doc => {
+                    const meal = doc.data();
+                    return { ...meal, id: doc.id };
                 });
+                if (mealsFromLastDay.length > 0) {
+                    const newChartData = {
+                        labels: mealsFromLastDay.map(meal => meal.name),
+                        datasets: [{
+                            data: mealsFromLastDay.map(meal => meal.calories),
+                            backgroundColor: mealsFromLastDay.map((_, i) => `hsl(${i / mealsFromLastDay.length * 360}, 60%, 60%)`),
+                            hoverOffset: 4
+                        }]
+                    };
+                    setChartData(newChartData);
+                }
+            }, error => {
+                console.error("Error fetching meals: ", error);
+            });
+
+            // Cleanup subscription on unmount
+            return () => unsubscribe();
         }
     }, [user, db]);
 
     return (
         <div>
             <h3>Calorie Intake by Meal</h3>
-            <ul>
-                {mealData.length > 0 ? (
-                    mealData.map((meal, index) => (
-                        <li key={index}>
-                            <strong>{meal.name}</strong>: {meal.calories} calories
-                        </li>
-                    ))
-                ) : (
-                    <li>No meals found for the last 24 hours.</li>
-                )}
-            </ul>
+            {chartData && chartData.datasets.length > 0 ? (
+                <Pie data={chartData} />
+            ) : (
+                <p>Loading chart...</p>
+            )}
         </div>
     );
 };

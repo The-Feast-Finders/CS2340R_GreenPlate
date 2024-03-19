@@ -27,7 +27,6 @@ const InputMeal = ({ user }) => {
             // Reset the form or provide feedback to the user
         } else {
             console.log('User is not logged in');
-            // Handle the case where there is no user logged in
         }
     };
 

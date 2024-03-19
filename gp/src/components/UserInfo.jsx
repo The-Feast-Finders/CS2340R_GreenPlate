@@ -1,38 +1,34 @@
 import React, { useEffect, useState } from 'react';  
 import '../pages/styles/UserInfo.css';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
+import { getFirestore, doc, onSnapshot } from 'firebase/firestore';
 
-const UserInfo = () => {
+const UserInfo = ({ user }) => {
     const [userInfo, setUserInfo] = useState({ height: '', weight: '', gender: '' });
     const [userBMR, setUserBMR] = useState(null);
 
-    const auth = getAuth();
-    const db = getFirestore();
-
     useEffect(() => {
-        const fetchUserInfo = async () => {
-            const user = auth.currentUser;
-            if (user) {
-                const docRef = doc(db, "users", user.uid);
-                const docSnap = await getDoc(docRef);
+        if (user) {
+            const db = getFirestore();
+            const docRef = doc(db, "users", user.uid);
 
-                if (docSnap.exists()) {
-                    const userData = docSnap.data();
-                    if (userData.weight && userData.height && userData.gender) {
-                        setUserInfo(userData);
+            const unsubscribe = onSnapshot(docRef, (doc) => {
+                if (doc.exists()) {
+                    const userData = doc.data();
+                    setUserInfo(userData);
+                    if (userData.height && userData.weight && userData.gender) {
                         setUserBMR(calculateBMR(userData.weight, userData.height, userData.gender));
-                    } else {
-                        console.log("Incomplete user data!");
                     }
                 } else {
                     console.log("No such document!");
                 }
-            }
-        };
+            }, error => {
+                console.error("Error fetching user data: ", error);
+            });
 
-        fetchUserInfo();
-    }, [auth, db]);
+            // Cleanup subscription on unmount
+            return () => unsubscribe();
+        }
+    }, [user]);
 
     const calculateBMR = (weight, height, gender) => {
         if (!weight || !height || !gender) {
@@ -59,3 +55,4 @@ const UserInfo = () => {
 };
 
 export default UserInfo;
+

@@ -1,31 +1,42 @@
-import React from 'react';
-import './styles/ProfilePage.css'
+import React, { useEffect, useState } from 'react';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import NavigationBar from '../components/NavigationBar';
-import InputData from '../components/InputData'
 import UserInfo from '../components/UserInfo';
+import './styles/ProfilePage.css';
 
-const ProfilePage = ({ userData, onUpdate }) => {
-    // userData should contain the user's information such as meals, height, etc.
-    // onUpdate is a function that would be called to update the user's information.
+const ProfilePage = () => {
+    const [currentUser, setCurrentUser] = useState(null);
+
+    useEffect(() => {
+        const auth = getAuth();
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in
+                setCurrentUser(user);
+            } else {
+                // No user is signed in, handle accordingly (e.g., redirect to login)
+                setCurrentUser(null);
+            }
+        });
+
+        // Cleanup subscription on unmount
+        return () => unsubscribe();
+    }, []);
+
     const logout = () => {
-        // Remove the token from local storage
-        localStorage.removeItem('userToken');
-      
-        // Redirect to the login page or home page
-        window.location.href = '/login'; // or wherever you want to redirect after logout
-      };
+        localStorage.removeItem('userToken'); // Assuming you store a token
+        window.location.href = '/login';
+    };
 
     return (
         <div>
             <NavigationBar />
             <div className="profile-page">
                 <h1>Welcome to Your Profile!</h1>
-                <UserInfo userData={userData} />
-                <InputData />
+                {currentUser ? <UserInfo userData={currentUser} /> : <p>Loading user data...</p>}
+                {/* Other components */}
             </div>
-            <div className="logout-button-container">
-                <button onClick={logout}>Logout</button>
-            </div>
+            <button onClick={logout}>Logout</button>
         </div>
     );
 };

@@ -36,12 +36,20 @@ const PieGraph = () => {
         }
     }, [user, db]);
 
-    // The rest of your component rendering the chart with mealData
-
     return (
         <div>
             <h3>Calorie Intake by Meal</h3>
-            {/* The chart will be rendered here using mealData */}
+            <ul>
+                {mealData.length > 0 ? (
+                    mealData.map((meal, index) => (
+                        <li key={index}>
+                            <strong>{meal.name}</strong>: {meal.calories} calories
+                        </li>
+                    ))
+                ) : (
+                    <li>No meals found for the last 24 hours.</li>
+                )}
+            </ul>
         </div>
     );
 };

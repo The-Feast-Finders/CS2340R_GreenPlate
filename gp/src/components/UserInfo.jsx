@@ -28,9 +28,6 @@ const UserInfo = ({ user }) => {
             }, error => {
                 console.error("Error fetching user data: ", error);
             });
-
-            // Cleanup subscription on unmount
-            return () => unsubscribe();
         }
     }, [user]);
 

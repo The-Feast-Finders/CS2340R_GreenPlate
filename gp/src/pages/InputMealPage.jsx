@@ -16,9 +16,8 @@ const InputMealPage = () => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
         });
-
-        // Clean up the subscription on unmount
-        return () => unsubscribe();
+        // Took out unsubscribe
+        // return () => unsubscribe();
     }, []);
 
     const renderGraph = () => {

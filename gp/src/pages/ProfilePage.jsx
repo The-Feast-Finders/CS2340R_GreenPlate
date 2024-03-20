@@ -21,7 +21,7 @@ const ProfilePage = () => {
         });
 
         // Cleanup subscription on unmount
-        return () => unsubscribe();
+        // return () => unsubscribe();
     }, []);
 
     const logout = () => {

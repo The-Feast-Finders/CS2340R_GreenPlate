@@ -1,6 +1,6 @@
 import React from 'react';
 import NavigationBar from '../components/NavigationBar';
-//import './styles/IngredientPage.css'
+
 
 const IngredientPage = () => {
     return (

@@ -1,7 +1,7 @@
 import React from 'react';
 import NavigationBar from '../components/NavigationBar';
 import PieGraph from '../components/PieGraph';
-//import './styles/RecipePage.css'
+
 
 const RecipePage = () => {
     return (

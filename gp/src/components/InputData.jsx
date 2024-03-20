@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
+import '../pages/styles/InputData.css'
 
 const InputData = ({ user }) => {
+    // State Variables
     const [weight, setWeight] = useState('');
     const [gender, setGender] = useState('');
     const [height, setHeight] = useState('');
@@ -17,7 +19,7 @@ const InputData = ({ user }) => {
             await saveUserData(user.uid, userData);
         } else {
             console.log("No user logged in");
-            
+
         }
     };
 
@@ -32,7 +34,7 @@ const InputData = ({ user }) => {
         }
     };
 
-    
+
 
     return (
         <form onSubmit={handleSave}>
@@ -70,7 +72,9 @@ const InputData = ({ user }) => {
                     required
                 />
             </div>
-            <button type="submit">Save</button>
+            <div className="button-container">
+                <button type="submit">Save</button>
+            </div>
         </form>
     );
 };

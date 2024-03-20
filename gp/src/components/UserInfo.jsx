@@ -3,9 +3,13 @@ import '../pages/styles/UserInfo.css';
 import { getFirestore, doc, onSnapshot } from 'firebase/firestore';
 
 const UserInfo = ({ user }) => {
+
+    // States for user info
     const [userInfo, setUserInfo] = useState({ height: '', weight: '', gender: '' });
     const [userBMR, setUserBMR] = useState(null);
 
+
+    // useEffect waits for user to change and if it does, it fetches new user information
     useEffect(() => {
         if (user) {
             const db = getFirestore();
@@ -30,6 +34,11 @@ const UserInfo = ({ user }) => {
         }
     }, [user]);
 
+    const capitalizeFirstLetter = (string) => {
+        if (!string) return '';
+        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    };
+
     const calculateBMR = (weight, height, gender) => {
         if (!weight || !height || !gender) {
             return null; // Return null if any of the values is missing or invalid
@@ -48,7 +57,7 @@ const UserInfo = ({ user }) => {
             <h3>User Information:</h3>
             <p>Height: {userInfo.height || 'Loading...'}</p>
             <p>Weight: {userInfo.weight || 'Loading...'}</p>
-            <p>Gender: {userInfo.gender || 'Loading...'}</p>
+            <p>Gender: {capitalizeFirstLetter(userInfo.gender) || 'Loading...'}</p>
             <h4>Your Calorie Goal: {userBMR ? `${userBMR} calories/day` : 'Calculating...'}</h4>
         </div>
     );

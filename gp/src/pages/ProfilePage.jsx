@@ -33,11 +33,15 @@ const ProfilePage = () => {
         <div>
             <NavigationBar />
             <div className="profile-page">
-                <h1>Welcome to Your Profile!</h1>
-                {currentUser ? <UserInfo user={currentUser} /> : <p>Loading user data...</p>}
-                <InputData user={currentUser} />
+                <div className="header-container">
+                    <h1 className="ProfileTitle">Welcome to your Profile!</h1>
+                    <a onClick={logout} className="logout-link">Logout</a>
+                </div>
+                <div className="user-data-container">
+                    {currentUser ? <UserInfo user={currentUser} /> : <p>Loading user data...</p>}
+                    <InputData user={currentUser} />
+                </div>
             </div>
-            <button onClick={logout}>Logout</button>
         </div>
     );
 };

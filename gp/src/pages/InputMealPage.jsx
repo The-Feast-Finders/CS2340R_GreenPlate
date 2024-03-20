@@ -34,7 +34,9 @@ const InputMealPage = () => {
         <div>
             <NavigationBar />
             <div className='frame'>
-                <h1>Input Meal</h1>
+                <div class="header-container">
+                    <h1>Input Your Meal Here!</h1>
+                </div>
                 <div className='container'>
                     <UserInfo user={user} />
                     <InputMeal user={user} />

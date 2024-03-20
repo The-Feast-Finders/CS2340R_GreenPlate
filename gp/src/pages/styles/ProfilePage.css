@@ -1,32 +1,64 @@
 /* ProfilePage.css */
 
 .profile-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: #f1f9ed; /* Light grey background */
-    color: #333; /* Dark text for readability */
-    font-family: 'Arial', sans-serif; /* Default font */
+    /* Existing styles */
+    flex-direction: column; /* Keep as column for vertical stacking */
+    align-items: center; /* Center the content */
 }
 
-h1 {
-    color: #333; /* Dark grey text */
-    margin-bottom: 20px;
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
+
+.ProfileTitle {
+    color: #333; /* Dark grey text */
+    text-align: center;
+    flex-grow: 1; /* Ensures the title expands to take available space */
+    margin-left: 110px; /* Adjust this value to shift the title to the right */
+    margin-top: 20px;
+    font-size: 2.5em;
+}
+
+.logout-link {
+    color: #666; /* Less conspicuous color */
+    text-decoration: none; /* Removes underline */
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 20px; /* Right padding for aesthetics */
+}
+
+.logout-link:hover {
+    text-decoration: underline; /* Adds underline on hover for better user experience */
+}
+
+.user-data-container {
+    display: flex;
+    flex-direction: row; /* Align children horizontally */
+    justify-content: center; /* Center items horizontally */
+    align-items: start; /* Align items to the start */
+    flex-wrap: wrap; /* Wrap items on smaller screens */
+    width: 100%; /* Take full width */
+    margin-top: 20px; /* Spacing from the title */
+}
+
+
 
 p1 {
     color: #666; /* Medium grey text */
 }
 
-.user-info {
+.user-info, .input-data {
+    /* Common styles for UserInfo and InputData components */
     background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for the info box */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
     border-radius: 8px;
-    padding: 20px;
     margin: 10px;
     width: 300px; /* Adjust width as needed */
+    padding: 20px;
 }
 
 .user-info p {
@@ -57,10 +89,10 @@ button:hover {
 }
 
 .logout-button-container {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
+    position: absolute; /* Change from 'fixed' to 'absolute' */
+    top: 10px; /* Adjust as needed for top padding */
+    right: 10px; /* Adjust as needed for right padding */
+    width: auto; /* Adjust the width to fit the content */
     text-align: center;
     padding: 10px;
     background-color: #f8f8f8; /* You can change the color as needed */

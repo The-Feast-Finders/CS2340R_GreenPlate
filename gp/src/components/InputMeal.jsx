@@ -7,35 +7,35 @@ const InputMeal = ({ user }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-    
+
         if (user) {
             const mealData = {
                 name: mealName,
                 calories: parseInt(calories, 10),
                 timestamp: Timestamp.fromDate(new Date()) // Save the current time as a Firestore Timestamp
             };
-    
+
             // Update user's meal array
             const userRef = doc(getFirestore(), 'users', user.uid);
             await setDoc(userRef, { meals: mealData }, { merge: true });
-    
+
             // Add meal to general meals collection
             const mealsRef = collection(getFirestore(), 'meals');
             await addDoc(mealsRef, { ...mealData, userId: user.uid });
-    
+
             console.log('Meal added successfully');
-    
+
             // Reload the page
             window.location.reload();
         } else {
             console.log('User is not logged in');
         }
     };
-    
+
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div>
+        <form onSubmit={handleSubmit} class="meal-form">
+            <div class="form-group">
                 <label htmlFor="mealName">Meal Name:</label>
                 <input
                     type="text"
@@ -43,9 +43,10 @@ const InputMeal = ({ user }) => {
                     value={mealName}
                     onChange={(e) => setMealName(e.target.value)}
                     required
+                    class="form-control"
                 />
             </div>
-            <div>
+            <div class="form-group">
                 <label htmlFor="calories">Calories:</label>
                 <input
                     type="number"
@@ -53,9 +54,10 @@ const InputMeal = ({ user }) => {
                     value={calories}
                     onChange={(e) => setCalories(e.target.value)}
                     required
+                    class="form-control"
                 />
             </div>
-            <button type="submit">Add Meal</button>
+            <button type="submit" class="submit-btn">Add Meal</button>
         </form>
     );
 };

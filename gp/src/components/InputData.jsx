@@ -39,7 +39,7 @@ const InputData = ({ user }) => {
     return (
         <form onSubmit={handleSave}>
             <div>
-                <label htmlFor="weight">Weight:</label>
+                <label htmlFor="weight">Weight: (lb)</label>
                 <input
                     type="number"
                     id="weight"
@@ -63,7 +63,7 @@ const InputData = ({ user }) => {
                 </select>
             </div>
             <div>
-                <label htmlFor="height">Height:</label>
+                <label htmlFor="height">Height: (ft)</label>
                 <input
                     type="number"
                     id="height"
@@ -73,7 +73,7 @@ const InputData = ({ user }) => {
                 />
             </div>
             <div className="button-container">
-                <button type="submit">Save</button>
+                <button type="submit">Update</button>
             </div>
         </form>
     );

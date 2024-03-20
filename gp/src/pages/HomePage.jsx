@@ -9,10 +9,12 @@ import NavigationBar from '../components/NavigationBar.jsx';
 const HomePage = () => {
     return (
         <div><NavigationBar />
-            <div className='frame'>
-                <h1>Welcome to Our Application!</h1>
-                <p>This is the home page of our awesome app. Here, you can find various features and information. Feel free to explore and enjoy our services.</p>
-                {/* Add more content here as needed */}
+            <div className="homePageContent">
+                <h1 className="main-title">Welcome to GreenPlate!</h1>
+                <div className="content-section">
+                    <p className="description">At GreenPlate, we believe that a healthier lifestyle starts on your plate. Our app is your dedicated companion in the world of health and nutrition, helping you track your calorie intake and meals with ease and insight.</p>
+
+                </div>
             </div>
         </div>
     );

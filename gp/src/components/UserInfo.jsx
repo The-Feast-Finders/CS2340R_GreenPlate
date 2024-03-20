@@ -55,8 +55,8 @@ const UserInfo = ({ user }) => {
     return (
         <div className="UserInfo">
             <h3>User Information:</h3>
-            <p>Height: {userInfo.height || 'Loading...'}</p>
-            <p>Weight: {userInfo.weight || 'Loading...'}</p>
+            <p>Height: {userInfo.height || 'Loading...'} ft</p>
+            <p>Weight: {userInfo.weight || 'Loading...'} lb</p>
             <p>Gender: {capitalizeFirstLetter(userInfo.gender) || 'Loading...'}</p>
             <h4>Your Calorie Goal: {userBMR ? `${userBMR} calories/day` : 'Calculating...'}</h4>
         </div>

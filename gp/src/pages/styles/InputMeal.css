@@ -19,17 +19,48 @@
     color: #333;
 }
 
-.header-container {
+.frame {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header-container {
+    text-align: center;
+}
+
+.content-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    /* Adjusts spacing between left and right sections */
+}
+
+
+
+.left-section {
+    flex: 1;
+    /* Takes up the required space */
+    display: flex;
+    flex-direction: column;
+}
+
+.right-section {
+    flex: 1;
+    /* Takes up the required space */
+    /* Additional styling for the graph container as needed */
 }
 
 h1 {
-    color: #333; /* Dark grey text */
+    color: #333;
+    /* Dark grey text */
     text-align: center;
-    margin: 0; /* Removes default margin */
-    flex-grow: 1; /* Takes available space */
+    margin: 0;
+    /* Removes default margin */
+    flex-grow: 1;
+    /* Takes available space */
 }
 
 .form-control {
@@ -50,19 +81,60 @@ h1 {
 
 .graph-buttons {
     display: flex;
-    justify-content: center; /* Centers the buttons horizontally */
-    gap: 10px; /* Adds space between buttons */
+    justify-content: center;
+    /* Centers the buttons horizontally */
+    gap: 10px;
+    /* Adds space between buttons */
+}
+
+.padding-graph {
+    padding: 40px;
+    justify-content: center;
+    display: flex;
+
+}
+
+.graph-area {
+    width: 400px;
+    /* Set your desired width */
+    height: 380px;
+    /* Set your desired height */
+    border: 2px solid #4d4d4d;
+    /* Solid border for the rectangle */
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    /* In case the graph overflows */
+    padding: 10px;
+    /* Optional padding */
+}
+
+.graph-container {
+    width: 100%; /* Adjust as needed */
+    max-width: 600px; /* Adjust as needed */
+    margin: auto;
+    height: 400px; /* Adjust as needed for consistent height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .graph-buttons button {
-    padding: 10px 15px; /* Adds padding inside the buttons */
-    cursor: pointer; /* Changes the cursor to a pointer on hover */
-    border-radius: 5px; /* Rounds the corners of the buttons */
+    padding: 10px 15px;
+    /* Adds padding inside the buttons */
+    cursor: pointer;
+    /* Changes the cursor to a pointer on hover */
+    border-radius: 5px;
+    /* Rounds the corners of the buttons */
 }
 
 .graph-buttons button:hover {
-    background-color: #42a43f; /* Changes background on hover */
+    background-color: #42a43f;
+    /* Changes background on hover */
 }
+
 
 .submit-btn {
     width: 100%;
@@ -83,5 +155,12 @@ h1 {
 @media (max-width: 600px) {
     .meal-form {
         padding: 15px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .graph-area {
+        width: 100%;
+        height: auto;
     }
 }

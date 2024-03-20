@@ -33,23 +33,30 @@ const InputMealPage = () => {
     return (
         <div>
             <NavigationBar />
-            <div className='frame'>
-                <div class="header-container">
+            <div className="frame">
+                <div className="header-container">
                     <h1>Input Your Meal Here!</h1>
                 </div>
-                <div className='container'>
-                    <UserInfo user={user} />
-                    <InputMeal user={user} />
-
-                    <div className="graph-buttons">
-                        <button onClick={() => setActiveGraph('pie')}>Pie Graph</button>
-                        <button onClick={() => setActiveGraph('bar')}>Bar Graph</button>
+                <div className="content-container">
+                    <div className="left-section">
+                        <UserInfo user={user} />
+                        <InputMeal user={user} />
+                        <div className="graph-buttons">
+                            <button onClick={() => setActiveGraph('pie')}>Pie Graph</button>
+                            <button onClick={() => setActiveGraph('bar')}>Bar Graph</button>
+                        </div>
                     </div>
-
-                    {renderGraph()}
+                    <div className="right-section">
+                        <div className="padding-graph">
+                            <div className="graph-area">
+                                {renderGraph()}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
     );
 };
 

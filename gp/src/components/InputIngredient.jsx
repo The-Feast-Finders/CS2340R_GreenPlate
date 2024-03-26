@@ -17,11 +17,8 @@ const InputIngredient = ({ user }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        // Reset error message
         setError('');
 
-        // Validate the quantity
         const quantityNum = parseInt(quantity, 10);
         if (quantityNum <= 0) {
             setError('Quantity must be a positive number.');
@@ -29,10 +26,10 @@ const InputIngredient = ({ user }) => {
         }
 
         if (user) {
-            const pantryRef = collection(db, 'pantry', user.uid, 'ingredients');
+            const pantryRef = collection(db, 'pantry');
 
-            // Check if the ingredient already exists with a nonzero quantity
-            const q = query(pantryRef, where("ingredient", "==", ingredientName));
+            // Check if the ingredient already exists
+            const q = query(pantryRef, where("userId", "==", user.uid), where("ingredient", "==", ingredientName));
             const querySnapshot = await getDocs(q);
 
             let ingredientExists = false;
@@ -47,8 +44,9 @@ const InputIngredient = ({ user }) => {
                 return;
             }
 
-            // If the ingredient doesn't exist, add it to the user's pantry
+            // Add the ingredient to the pantry
             const ingredientData = {
+                userId: user.uid,
                 ingredient: ingredientName,
                 quantity: quantityNum,
                 calories: parseInt(calories, 10),
@@ -62,6 +60,7 @@ const InputIngredient = ({ user }) => {
                 setError('Error adding ingredient to pantry.');
             }
         }
+
     }
 
 

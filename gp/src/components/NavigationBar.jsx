@@ -4,8 +4,10 @@ import '../pages/styles/NavigationBar.css'; // Import CSS for styling
 
 const NavigationBar = () => {
     return (
+
         <nav className="navigation-bar" data-testid="navigation-bar">
             <div className="nav-logo">
+                <script src="http://localhost:8097"></script>
                 <img src="./gpicon.png" alt="Logo" />
             </div>
             <div className="nav-links">

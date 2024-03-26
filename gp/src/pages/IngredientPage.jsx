@@ -21,8 +21,8 @@ const IngredientPage = () => {
         <div>
             <NavigationBar />
             <div className='frame'> 
-                <h1>Ingredient Page</h1>
-                <p>Welcome to the Ingredient Page!</p>
+                <h1>Your Pantrye</h1>
+                <p>Add your ingredients to your own virtual pantry!</p>
             </div>
             <InputIngredient user={user}/>        
         </div>

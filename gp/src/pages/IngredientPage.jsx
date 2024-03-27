@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import NavigationBar from '../components/NavigationBar';
 import InputIngredient from '../components/InputIngredient';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import PantryList from '../components/PantryList';
 
 
 
@@ -20,11 +21,12 @@ const IngredientPage = () => {
     return (
         <div>
             <NavigationBar />
-            <div className='frame'> 
+            <div className='container'> 
                 <h1>Ingredient Page</h1>
-                <p>Welcome to the Ingredient Page!</p>
-            </div>
-            <InputIngredient user={user}/>        
+                <p2>Welcome to the Ingredient Page!</p2>
+                <PantryList user={user} />
+                <InputIngredient user={user}/>  
+            </div>      
         </div>
     );
 };

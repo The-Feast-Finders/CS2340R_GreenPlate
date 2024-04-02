@@ -22,7 +22,7 @@ const RecipePage = () => {
             <NavigationBar />
             <div className='frame'>
                 <h1>Recipe Page</h1>
-                <RecipeList />
+                <RecipeList user={user}/>
                 <InputRecipe user={user} />
                 <p>Welcome to the Recipe Page!</p>
             </div>

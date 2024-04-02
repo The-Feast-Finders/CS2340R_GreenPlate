@@ -40,6 +40,14 @@ const InputRecipe = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
     
+
+        // Check for negative ingredient quantities
+        if (ingredients.some(ingredient => Number(ingredient.quantity) < 0)) {
+            alert('Ingredient quantities must be non-negative.');
+            return;
+        }
+    
+        
         if (recipeName.trim() === '' || !ingredients.every(isValidIngredient) || ingredients.length === 0) {
             return;
         }

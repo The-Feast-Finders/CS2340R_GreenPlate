@@ -18,19 +18,24 @@ const RecipeList = ({ user }) => {
             if (user) {
                 const pantryRef = collection(db, 'pantry', user.uid, 'ingredients');
                 const querySnapshot = await getDocs(pantryRef);
-                const pantryData = querySnapshot.docs.map(doc => doc.data());
+                const pantryData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 setPantry(pantryData);
             }
         };
+
+        
 
         fetchRecipes();
         fetchPantry();
     }, [user, db]);
 
     const canMakeRecipe = (recipe) => {
-        return recipe.ingredients.every(ingredient => 
-            pantry.some(pantryItem => pantryItem.ingredient === ingredient.name && pantryItem.quantity >= ingredient.quantity)
-        );
+        return recipe.ingredients.every(ingredient => {
+            const pantryItem = pantry.find(pantryItem => pantryItem.ingredient.toLowerCase() === ingredient.name.toLowerCase());
+            console.log(`Checking ingredient: ${ingredient.name}, Available: ${pantryItem ? pantryItem.quantity : 'none'}`);
+    
+            return pantryItem && pantryItem.quantity >= ingredient.quantity;
+        });
     };
 
     return (

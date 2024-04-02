@@ -55,7 +55,7 @@ const PieGraph = () => {
     }, [user, db]);
 
     return (
-        <div>
+        <div data-testid='pie-graph'>
             <h3>Calorie Intake by Meal</h3>
             {chartData && chartData.datasets.length > 0 ? (
                 <Pie data={chartData} />

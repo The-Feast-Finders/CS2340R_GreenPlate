@@ -3,6 +3,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import NavigationBar from '../components/NavigationBar';
 import UserInfo from '../components/UserInfo';
 import './styles/ProfilePage.css';
+import InputData from '../components/InputData'
 
 const ProfilePage = () => {
     const [currentUser, setCurrentUser] = useState(null);
@@ -20,7 +21,7 @@ const ProfilePage = () => {
         });
 
         // Cleanup subscription on unmount
-        return () => unsubscribe();
+        // return () => unsubscribe();
     }, []);
 
     const logout = () => {
@@ -32,11 +33,15 @@ const ProfilePage = () => {
         <div>
             <NavigationBar />
             <div className="profile-page">
-                <h1>Welcome to Your Profile!</h1>
-                {currentUser ? <UserInfo userData={currentUser} /> : <p>Loading user data...</p>}
-                {/* Other components */}
+                <div className="header-container">
+                    <h1 className="ProfileTitle">Welcome to your Profile!</h1>
+                    <a onClick={logout} className="logout-link">Logout</a>
+                </div>
+                <div className="user-data-container">
+                    {currentUser ? <UserInfo user={currentUser} /> : <p>Loading user data...</p>}
+                    <InputData user={currentUser} />
+                </div>
             </div>
-            <button onClick={logout}>Logout</button>
         </div>
     );
 };

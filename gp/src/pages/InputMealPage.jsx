@@ -4,33 +4,58 @@ import NavigationBar from '../components/NavigationBar';
 import UserInfo from '../components/UserInfo';
 import InputMeal from '../components/InputMeal';
 import PieGraph from '../components/PieGraph';
+import BarGraph from '../components/BarGraph';
 import './styles/InputMeal.css';
 
 const InputMealPage = () => {
     const [user, setUser] = useState(null);
+    const [activeGraph, setActiveGraph] = useState(null); // Initialize to null
 
     useEffect(() => {
         const auth = getAuth();
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
         });
-
-        // Clean up the subscription on unmount
-        return () => unsubscribe();
+        // Took out unsubscribe
+        // return () => unsubscribe();
     }, []);
+
+    const renderGraph = () => {
+        if (activeGraph === 'pie') {
+            return <PieGraph user={user} />;
+        } else if (activeGraph === 'bar') {
+            return <BarGraph user={user} />;
+        }
+        return null; // No graph is rendered if activeGraph is null
+    };
 
     return (
         <div>
             <NavigationBar />
-            <div className='frame'>
-                <h1>Input Meal</h1>
-                <div className='container'>
-                    <UserInfo user={user} /> {/* Pass user as prop if needed */}
-                    <InputMeal user={user} /> {/* Pass user as prop to InputMeal */}
-                    <PieGraph user={user} /> {/* Pass user as prop to PieGraph if needed */}
+            <div className="frame">
+                <div className="header-container">
+                    <h1>Input Your Meals Here!</h1>
+                </div>
+                <div className="content-container">
+                    <div className="left-section">
+                        <UserInfo user={user} />
+                        <InputMeal user={user} />
+                        <div className="graph-buttons">
+                            <button onClick={() => setActiveGraph('pie')}>Pie Graph</button>
+                            <button onClick={() => setActiveGraph('bar')}>Bar Graph</button>
+                        </div>
+                    </div>
+                    <div className="right-section">
+                        <div className="padding-graph">
+                            <div className="graph-area">
+                                {renderGraph()}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
     );
 };
 

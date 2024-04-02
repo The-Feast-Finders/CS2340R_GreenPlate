@@ -1,17 +1,23 @@
-.userInfo {
-    border: 1px solid #ddd;
+/* UserInfo.css */
+
+.UserInfo {
+    max-width: 500px;
+    margin: 40px auto;
     padding: 20px;
-    border-radius: 5px;
-    margin: 20px 0 20px 20px;
     background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-family: 'Arial', sans-serif;
 }
 
-.userInfo h3 {
+.UserInfo h3, .UserInfo h4, .UserInfo p {
     margin-top: 0;
+    margin-bottom: 10px;
     color: #333;
 }
 
-.userInfo p {
-    margin: 10px 0;
+.UserInfo p {
     color: #666;
 }

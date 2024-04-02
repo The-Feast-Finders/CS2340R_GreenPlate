@@ -24,15 +24,18 @@ const InputMeal = ({ user }) => {
             await addDoc(mealsRef, { ...mealData, userId: user.uid });
 
             console.log('Meal added successfully');
-            // Reset the form or provide feedback to the user
+
+            // Reload the page
+            window.location.reload();
         } else {
             console.log('User is not logged in');
         }
     };
 
+
     return (
-        <form onSubmit={handleSubmit}>
-            <div>
+        <form onSubmit={handleSubmit} class="meal-form">
+            <div class="form-group">
                 <label htmlFor="mealName">Meal Name:</label>
                 <input
                     type="text"
@@ -40,9 +43,10 @@ const InputMeal = ({ user }) => {
                     value={mealName}
                     onChange={(e) => setMealName(e.target.value)}
                     required
+                    class="form-control"
                 />
             </div>
-            <div>
+            <div class="form-group">
                 <label htmlFor="calories">Calories:</label>
                 <input
                     type="number"
@@ -50,9 +54,10 @@ const InputMeal = ({ user }) => {
                     value={calories}
                     onChange={(e) => setCalories(e.target.value)}
                     required
+                    class="form-control"
                 />
             </div>
-            <button type="submit">Add Meal</button>
+            <button type="submit" class="submit-btn">Add Meal</button>
         </form>
     );
 };

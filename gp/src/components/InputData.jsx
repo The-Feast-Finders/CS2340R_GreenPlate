@@ -1,30 +1,25 @@
 import React, { useState } from 'react';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
+import '../pages/styles/InputData.css'
 
-const InputData = () => {
+const InputData = ({ user }) => {
+    // State Variables
     const [weight, setWeight] = useState('');
     const [gender, setGender] = useState('');
     const [height, setHeight] = useState('');
-    const [meals, setMeals] = useState([]); // Assuming this is an array
 
-    // Authenticate and set user
-    const auth = getAuth();
-    const [user, setUser] = useState(null);
+    const navigate = useNavigate();
 
-    onAuthStateChanged(auth, (currentUser) => {
-        setUser(currentUser);
-    });
-
-    const handleSave = (event) => {
-        event.preventDefault(); // Prevents the default form submit action
+    const handleSave = async (event) => {
+        event.preventDefault();
 
         if (user) {
-            const userData = { weight, gender, height, meals };
-            saveUserData(user.uid, userData);
+            const userData = { weight, gender, height };
+            await saveUserData(user.uid, userData);
         } else {
             console.log("No user logged in");
-            // Handle the case where there is no user logged in
+
         }
     };
 
@@ -39,10 +34,12 @@ const InputData = () => {
         }
     };
 
+
+
     return (
         <form onSubmit={handleSave}>
             <div>
-                <label htmlFor="weight">Weight:</label>
+                <label htmlFor="weight">Weight: (lb)</label>
                 <input
                     type="number"
                     id="weight"
@@ -66,7 +63,7 @@ const InputData = () => {
                 </select>
             </div>
             <div>
-                <label htmlFor="height">Height:</label>
+                <label htmlFor="height">Height: (ft)</label>
                 <input
                     type="number"
                     id="height"
@@ -75,7 +72,9 @@ const InputData = () => {
                     required
                 />
             </div>
-            <button type="submit">Save</button>
+            <div className="button-container">
+                <button type="submit">Update</button>
+            </div>
         </form>
     );
 };

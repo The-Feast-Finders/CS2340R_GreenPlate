@@ -3,20 +3,70 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 100vh;
+    height: 135vh;
     text-align: center;
     padding: 20px;
-    background-color: #f1f9ed; /* Light grey background */
+    background-color: white;
+    /* Light grey background */
 }
 
 .frame h1 {
     font-size: 2.5em;
-    color: #333; /* Dark grey text */
+    color: #333;
+    /* Dark grey text */
     margin-bottom: 20px;
 }
 
+.intro {
+    text-align: center;
+}
+
+
+.description {
+    text-align: center;
+    color: #666;
+}
 .frame p {
     font-size: 1.2em;
-    color: #666; /* Medium grey text */
+    color: #666;
+    /* Medium grey text */
+}
+
+/* HomePageContent.css */
+
+.homePageContent {
+
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: white;
+}
+
+.homePageContent .main-title {
+    padding-top: 200px;
+
+    color: #72b934;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 3.5em;
+}
+
+.homePageContent .content-section {
+    margin-top: 20px;
+    padding-left: 200px;
+    padding-right: 200px;
+}
+
+.homePageContent .section-title {
+    font-size: 3em;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    color: #2a9d8f;
+}
+
+.homePageContent p {
+    text-align: center;
+    line-height: 1.6;
+    margin-bottom: 20px;
 }

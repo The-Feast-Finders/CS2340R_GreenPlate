@@ -3,9 +3,13 @@ import '../pages/styles/UserInfo.css';
 import { getFirestore, doc, onSnapshot } from 'firebase/firestore';
 
 const UserInfo = ({ user }) => {
+
+    // States for user info
     const [userInfo, setUserInfo] = useState({ height: '', weight: '', gender: '' });
     const [userBMR, setUserBMR] = useState(null);
 
+
+    // useEffect waits for user to change and if it does, it fetches new user information
     useEffect(() => {
         if (user) {
             const db = getFirestore();
@@ -24,11 +28,13 @@ const UserInfo = ({ user }) => {
             }, error => {
                 console.error("Error fetching user data: ", error);
             });
-
-            // Cleanup subscription on unmount
-            return () => unsubscribe();
         }
     }, [user]);
+
+    const capitalizeFirstLetter = (string) => {
+        if (!string) return '';
+        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    };
 
     const calculateBMR = (weight, height, gender) => {
         if (!weight || !height || !gender) {
@@ -46,9 +52,9 @@ const UserInfo = ({ user }) => {
     return (
         <div className="UserInfo">
             <h3>User Information:</h3>
-            <p>Height: {userInfo.height || 'Loading...'}</p>
-            <p>Weight: {userInfo.weight || 'Loading...'}</p>
-            <p>Gender: {userInfo.gender || 'Loading...'}</p>
+            <p>Height: {userInfo.height || 'Loading...'} ft</p>
+            <p>Weight: {userInfo.weight || 'Loading...'} lb</p>
+            <p>Gender: {capitalizeFirstLetter(userInfo.gender) || 'Loading...'}</p>
             <h4>Your Calorie Goal: {userBMR ? `${userBMR} calories/day` : 'Calculating...'}</h4>
         </div>
     );

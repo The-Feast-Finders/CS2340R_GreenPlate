@@ -1,6 +1,5 @@
 import React from 'react';
 import NavigationBar from '../components/NavigationBar';
-//import './styles/ShoppingListPage.css'
 
 const ShoppingList = () => {
     return (
@@ -10,7 +9,6 @@ const ShoppingList = () => {
                 <h1>Shopping List</h1>
                 <p>Welcome to the Shopping List</p>
             </div>
-        
         </div>
     );
 };

@@ -16,7 +16,6 @@ const PantryList = ({ user }) => {
                 setPantryItems(items);
             } catch (error) {
                 console.error("Error fetching pantry items: ", error);
-                // Handle the error appropriately
             }
         }
     };

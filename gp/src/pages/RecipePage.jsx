@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import NavigationBar from '../components/NavigationBar';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import InputRecipe from '../components/InputRecipe';
+import RecipeList from '../components/RecipeList';
 
 
 const RecipePage = () => {
@@ -20,6 +22,8 @@ const RecipePage = () => {
             <NavigationBar />
             <div className='frame'>
                 <h1>Recipe Page</h1>
+                <RecipeList user={user}/>
+                <InputRecipe user={user} />
                 <p>Welcome to the Recipe Page!</p>
             </div>
         </div>

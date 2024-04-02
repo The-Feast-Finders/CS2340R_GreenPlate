@@ -8,7 +8,6 @@ const InputRecipe = () => {
 
     const db = getFirestore();
 
-
     const isValidIngredient = (ingredient) => {
         return ingredient.name.trim() !== '' && !isNaN(ingredient.quantity) && ingredient.quantity > 0;
     };

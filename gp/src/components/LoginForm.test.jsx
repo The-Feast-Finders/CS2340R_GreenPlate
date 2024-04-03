@@ -23,7 +23,6 @@ describe('LoginForm', () => {
     // Submit the form
     fireEvent.click(screen.getByRole('button', { name: /login/i }));
 
-    // Assert onLogin was called with correct email and password
     expect(mockOnLogin).toHaveBeenCalledWith('test@example.com', 'password123');
   });
 });

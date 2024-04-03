@@ -11,9 +11,7 @@ describe('HomePage', () => {
       </Router>
     );
 
-    // Check if the main title is rendered
     expect(screen.getByText('Welcome to GreenPlate!')).toBeInTheDocument();
-
     
   });
 });

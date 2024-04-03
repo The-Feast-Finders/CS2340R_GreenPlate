@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "chart.js": "^4.4.2",
     "firebase": "^10.9.0",
+    "jscheckstyle": "^0.0.9",
     "node": "^21.7.1",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",

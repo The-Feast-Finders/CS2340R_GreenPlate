@@ -17,7 +17,6 @@ describe('ProfilePage', () => {
       </Router>
     );
 
-    // Check if the welcome message is in the document
     expect(screen.getByText('Welcome to your Profile!')).toBeInTheDocument();
   });
 });

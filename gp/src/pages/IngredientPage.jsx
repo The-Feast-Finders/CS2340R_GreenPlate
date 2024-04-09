@@ -21,9 +21,10 @@ const IngredientPage = () => {
     return (
         <div>
             <NavigationBar />
-            <div className='container'> 
-                <h1>Ingredient Page</h1>
-                <p2>Welcome to the Ingredient Page!</p2>
+            <div className='frame'> 
+                <div className="header-container">
+                    <h1>Ingredient Page</h1>
+                </div>
                 <PantryList user={user} />
                 <InputIngredient user={user}/>  
             </div>      

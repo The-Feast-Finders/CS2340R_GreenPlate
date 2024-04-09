@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getFirestore, collection, query, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, getDocs } from 'firebase/firestore';
 
 const PantryList = ({ user }) => {
     const [pantryItems, setPantryItems] = useState([]);
@@ -28,8 +28,9 @@ const PantryList = ({ user }) => {
         <div>
             <h2>Your Pantry Items</h2>
             <ul>
+                <p>Name : Quantity : Calories : Expiration Date</p>
                 {pantryItems.map(item => (
-                    <li key={item.id}>{item.ingredient} --- {item.quantity} --- {item.calories} --- {item.expDate?.toDate().toLocaleDateString()}</li>
+                    <li key={item.id}>{item.ingredient} : {item.quantity} : {item.calories} : {item.expDate?.toDate().toLocaleDateString()}</li>
                 ))}
             </ul>
         </div>

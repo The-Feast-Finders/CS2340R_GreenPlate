@@ -51,10 +51,12 @@ const RecipeList = ({ user }) => {
     return (
         <div>
             <h2>Recipe List</h2>
-            <button onClick={sortRecipesAlphabetically}>Sort Alphabetically</button>
-            <button onClick={toggleFilterMakeable}>
-                {filterMakeable ? 'Show All Recipes' : 'Show Recipes I Can Make'}
-            </button>
+            <div style={{ display: 'flex', gap: '10px' }}>
+                <button style={{ flex: 1, padding: '12px 6px' }} onClick={sortRecipesAlphabetically}>Sort Alphabetically</button>
+                <button style={{ flex: 1, padding: '12px 1px' }} onClick={toggleFilterMakeable}>
+                    {filterMakeable ? 'Show All Recipes' : 'Show Available Recipes'}
+                </button>
+            </div>
             <div style={{ overflowY: 'auto', maxHeight: '400px' }}>
                 {filteredRecipes.map(recipe => (
                     <div key={recipe.id} onClick={() => setSelectedRecipeId(recipe.id)}>

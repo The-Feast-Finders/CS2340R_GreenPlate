@@ -67,7 +67,6 @@ const InputIngredient = ({ user }) => {
 
     return (
         <div>
-            <h1>omaigudnes</h1>
             {showForm ? (
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="ingredientName">Ingredient Name:</label>

@@ -24,7 +24,7 @@ const RecipePage = () => {
                 <div className="header-container">
                     <h1>Recipe Page</h1>
                 </div>
-                <div className="content-container" style={{ display: 'flex', gap: '30px' }}>
+                <div className="content-container" style={{ display: 'flex', gap: '10px'}}>
                     <div className="left-section">
                         <RecipeList user={user}/>
                     </div>

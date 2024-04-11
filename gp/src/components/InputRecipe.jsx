@@ -93,8 +93,10 @@ const InputRecipe = () => {
                     </li>
                 ))}
             </ul>
-            <button onClick={addIngredient}>Add Ingredient</button>
-            <button type="submit">Save Recipe</button>
+            <div className="content-container" style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+                <button onClick={addIngredient}>Add Ingredient</button>
+                <button type="submit">Save Recipe</button>
+            </div>
         </form>
 
     );

@@ -21,10 +21,17 @@ const RecipePage = () => {
         <div>
             <NavigationBar />
             <div className='frame'>
-                <h1>Recipe Page</h1>
-                <RecipeList user={user}/>
-                <InputRecipe user={user} />
-                <p>Welcome to the Recipe Page!</p>
+                <div className="header-container">
+                    <h1>Recipe Page</h1>
+                </div>
+                <div className="content-container" style={{ display: 'flex', gap: '10px'}}>
+                    <div className="left-section">
+                        <RecipeList user={user}/>
+                    </div>
+                    <div className="right-section">
+                        <InputRecipe user={user} />
+                    </div>
+                </div>
             </div>
         </div>
     );

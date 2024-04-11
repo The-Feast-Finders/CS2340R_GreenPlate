@@ -23,7 +23,6 @@ describe('RegistrationForm', () => {
     // Submit the form
     fireEvent.click(screen.getByRole('button', { name: /register/i }));
 
-    // Assert onRegister was called with correct email and password
     expect(mockOnRegister).toHaveBeenCalledWith('user@example.com', 'userPassword123');
   });
 });

@@ -7,8 +7,8 @@ test('UserInfo renders initial loading state correctly', () => {
   // Check for static content
   expect(screen.getByText('User Information:')).toBeInTheDocument();
 
-  // Use getAllByText for multiple elements with the same text
+ 
   const loadingElements = screen.getAllByText(/Loading.../);
-  expect(loadingElements.length).toBeGreaterThan(0); // Adjust this condition as needed
+  expect(loadingElements.length).toBeGreaterThan(0); 
 
 });

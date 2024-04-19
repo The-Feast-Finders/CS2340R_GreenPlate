@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { getFirestore, doc, setDoc, collection, addDoc, Timestamp, getDocs } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, collection, addDoc, Timestamp, getDocs, query, where } from 'firebase/firestore';
 
 const RecipeList = ({ user }) => {
     const [recipes, setRecipes] = useState([]);
@@ -23,7 +23,6 @@ const RecipeList = ({ user }) => {
                 setPantry(pantryData);
             }
         };
-
         fetchRecipes();
         fetchPantry();
     }, [user, db]);
@@ -99,17 +98,28 @@ const RecipeList = ({ user }) => {
         }
     }
 
-    const addMissingIngredients = (recipe) => {
-        recipe.ingredients.every(ingredient => {
-            const pantryItem = pantry.find(pantryIngredient => pantryIngredient.ingredient.toLowerCase() === ingredient.name.toLowerCase());
-            if (pantryItem) {
-                //add ingredient.quantity - pantryItem.quantity to shopping list
-            } else {
-                //add ingredient with ingredient.quantity to shopping list
-            }
-        });
+    // method made 
+    const addMissingIngredients = async (recipe) => {
+        // Ensure user is logged in before proceeding
+        if (!user) {
+            console.log('User is not logged in');
+            return;
+        }
 
-        //send confirmation
+        // Iterate over each ingredient in the recipe
+        for (const ingredient of recipe.ingredients) {
+            const pantryItem = pantry.find(pantryIngredient => 
+                pantryIngredient.ingredient.toLowerCase() === ingredient.name.toLowerCase()
+            );
+
+            // Calculate required quantity to add
+            const requiredQuantity = pantryItem ? ingredient.quantity - pantryItem.quantity : ingredient.quantity;
+    
+            // Continue if the pantry already has enough of the ingredient
+            if (requiredQuantity <= 0) {
+                continue;
+            }
+        }
     }
 
     const toggleFilterMakeable = () => {

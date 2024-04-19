@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { getFirestore, collection, getDocs, doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, doc, updateDoc, deleteDoc, addDoc, query, where } from 'firebase/firestore';
 
 const ShoppingList = ({ user }) => {
     const [shoppingItems, setShoppingItems] = useState([]);
+    const [selectedItems, setSelectedItems] = useState([]);
     const db = getFirestore();
+
+    useEffect(() => {
+        fetchShoppingItems();
+    }, [user]); // Fetch when user changes
 
     const fetchShoppingItems = async () => {
         if (user) {
-            // Reference to the 'ingredients' sub-collection in the user's document
             const shoppingRef = collection(db, 'shoppingList', user.uid, 'ingredients');
-
             try {
                 const querySnapshot = await getDocs(shoppingRef);
                 const items = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -20,27 +23,45 @@ const ShoppingList = ({ user }) => {
         }
     };
 
-    useEffect(() => {
-        fetchShoppingItems();
-    }, [user]); // Dependency array ensures this runs when 'user' changes
-
     const updateQuantity = async (itemId, newQuantity) => {
         if (newQuantity <= 0) {
-            // Delete the item if the quantity is zero or negative
             await deleteDoc(doc(db, `shoppingList/${user.uid}/ingredients`, itemId));
         } else {
-            // Update the item with the new quantity
             await updateDoc(doc(db, `shoppingList/${user.uid}/ingredients`, itemId), { quantity: newQuantity });
         }
-        fetchShoppingItems(); // Refresh the list after update
+        fetchShoppingItems();
     };
 
-    const handleIncrement = (itemId, currentQuantity) => {
-        updateQuantity(itemId, currentQuantity + 1);
+    const handleSelectItem = (itemId) => {
+        setSelectedItems(prev => {
+            const newSelection = new Set(prev);
+            if (newSelection.has(itemId)) {
+                newSelection.delete(itemId);
+            } else {
+                newSelection.add(itemId);
+            }
+            return Array.from(newSelection);
+        });
     };
 
-    const handleDecrement = (itemId, currentQuantity) => {
-        updateQuantity(itemId, currentQuantity - 1);
+    const buyItems = async () => {
+        const pantryRef = collection(db, 'pantry', user.uid, 'ingredients');
+        for (const itemId of selectedItems) {
+            const item = shoppingItems.find(it => it.id === itemId);
+            const pantryQuery = query(pantryRef, where("ingredient", "==", item.ingredient));
+            const pantryDocs = await getDocs(pantryQuery);
+            const pantryDoc = pantryDocs.docs[0];
+
+            if (pantryDoc) {
+                await updateDoc(pantryDoc.ref, { quantity: pantryDoc.data().quantity + item.quantity });
+            } else {
+                await addDoc(pantryRef, { ingredient: item.ingredient, quantity: item.quantity });
+            }
+
+            await deleteDoc(doc(db, `shoppingList/${user.uid}/ingredients`, itemId));
+        }
+        setSelectedItems([]);
+        fetchShoppingItems();
     };
 
     return (
@@ -49,12 +70,18 @@ const ShoppingList = ({ user }) => {
             <ul style={{ overflowY: 'auto', maxHeight: '500px' }}>
                 {shoppingItems.map(item => (
                     <li key={item.id}>
+                        <input
+                            type="checkbox"
+                            checked={selectedItems.includes(item.id)}
+                            onChange={() => handleSelectItem(item.id)}
+                        />
                         {item.ingredient} - Quantity: {item.quantity}
-                        <button onClick={() => handleIncrement(item.id, item.quantity)}>+</button>
-                        <button onClick={() => handleDecrement(item.id, item.quantity)}>-</button>
+                        <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
+                        <button onClick={() => updateQuantity(item.id, item.quantity - 1)}>-</button>
                     </li>
                 ))}
             </ul>
+            <button onClick={buyItems}>Buy Selected Items</button>
         </div>
     );
 };

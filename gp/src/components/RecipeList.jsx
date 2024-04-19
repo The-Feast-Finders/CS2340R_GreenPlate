@@ -134,7 +134,15 @@ const RecipeList = ({ user }) => {
                     const newQuantity = existingQuantity + requiredQuantity;
                     await setDoc(doc.ref, { quantity: newQuantity }, { merge: true });
                 });
-            } 
+            } else {
+                // Ingredient does not exist, add new entry
+                await addDoc(shoppingListRef, {
+                    ingredient: ingredient.name,
+                    quantity: requiredQuantity
+                });
+            }
+        };
+        console.log("Processing of ingredients is completed.");
         }
     }
 

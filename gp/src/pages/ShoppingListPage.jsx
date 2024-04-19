@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import NavigationBar from '../components/NavigationBar';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import InputShop from '../components/InputShop';
+import ShoppingList from '../components/ShoppingList';
 
-const ShoppingList = () => {
+const ShoppingListPage = () => {
 
 
     const [user, setUser] = useState(null);
@@ -20,13 +21,14 @@ const ShoppingList = () => {
     return (
         <div>
             <NavigationBar />
-            <div className='frame'> 
+            <div className='frame'>
                 <h1>Shopping List</h1>
                 <p>Welcome to the Shopping List</p>
                 <InputShop user={user} />
+                <ShoppingList user={user} />
             </div>
         </div>
     );
 };
 
-export default ShoppingList;
+export default ShoppingListPage;

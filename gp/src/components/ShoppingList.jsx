@@ -46,7 +46,7 @@ const ShoppingList = ({ user }) => {
     return (
         <div>
             <h2>Your Shopping List</h2>
-            <ul style={{ overflowY: 'auto', maxHeight: '400px' }}>
+            <ul style={{ overflowY: 'auto', maxHeight: '500px' }}>
                 {shoppingItems.map(item => (
                     <li key={item.id}>
                         {item.ingredient} - Quantity: {item.quantity}

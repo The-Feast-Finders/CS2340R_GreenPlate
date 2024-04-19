@@ -100,50 +100,40 @@ const RecipeList = ({ user }) => {
 
     // method made 
     const addMissingIngredients = async (recipe) => {
-        // Ensure user is logged in before proceeding
+        //check to see if user logged in. 
         if (!user) {
-            console.log('User is not logged in');
+            console.error('User is not logged in');
+            alert('You must be logged in to add ingredients.');
             return;
         }
-
-        // Iterate over each ingredient in the recipe
+    
         for (const ingredient of recipe.ingredients) {
-            const pantryItem = pantry.find(pantryIngredient => 
-                pantryIngredient.ingredient.toLowerCase() === ingredient.name.toLowerCase()
-            );
-
-            // Calculate required quantity to add
-            const requiredQuantity = pantryItem ? ingredient.quantity - pantryItem.quantity : ingredient.quantity;
+            const pantryItem = pantry.find(pantryIngredient => pantryIngredient.ingredient.toLowerCase() === ingredient.name.toLowerCase());
     
-            // Continue if the pantry already has enough of the ingredient
-            if (requiredQuantity <= 0) {
-                continue;
-            }
-
-            // Reference to the shopping list collection for the user
+            const requiredQuantity = pantryItem ? Math.max(0, ingredient.quantity - pantryItem.quantity) : ingredient.quantity;
+            if (requiredQuantity <= 0) continue; // Skip if no additional quantity is needed
+    
             const shoppingListRef = collection(db, `shoppingList/${user.uid}/ingredients`);
-    
-            // Query to check if the ingredient already exists in the shopping list
             const q = query(shoppingListRef, where("ingredient", "==", ingredient.name.toLowerCase()));
             const querySnapshot = await getDocs(q);
-
+    
             if (!querySnapshot.empty) {
-                // Ingredient exists, update quantity
-                querySnapshot.forEach(async (doc) => {
+                // Update existing quantity
+                await Promise.all(querySnapshot.docs.map(doc => {
                     const existingQuantity = doc.data().quantity || 0;
                     const newQuantity = existingQuantity + requiredQuantity;
-                    await setDoc(doc.ref, { quantity: newQuantity }, { merge: true });
-                });
+                    return setDoc(doc.ref, { quantity: newQuantity }, { merge: true });
+                }));
             } else {
-                // Ingredient does not exist, add new entry
+                // Add a new ingredient to the shopping list
                 await addDoc(shoppingListRef, {
                     ingredient: ingredient.name,
                     quantity: requiredQuantity
                 });
             }
         };
-        console.log("Processing of ingredients is completed.");
-        }
+    
+        alert("Ingredients added to the shopping list successfully!");
     }
 
     const toggleFilterMakeable = () => {

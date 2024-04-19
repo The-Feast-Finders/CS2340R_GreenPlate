@@ -119,6 +119,22 @@ const RecipeList = ({ user }) => {
             if (requiredQuantity <= 0) {
                 continue;
             }
+
+            // Reference to the shopping list collection for the user
+            const shoppingListRef = collection(db, `shoppingList/${user.uid}/ingredients`);
+    
+            // Query to check if the ingredient already exists in the shopping list
+            const q = query(shoppingListRef, where("ingredient", "==", ingredient.name.toLowerCase()));
+            const querySnapshot = await getDocs(q);
+
+            if (!querySnapshot.empty) {
+                // Ingredient exists, update quantity
+                querySnapshot.forEach(async (doc) => {
+                    const existingQuantity = doc.data().quantity || 0;
+                    const newQuantity = existingQuantity + requiredQuantity;
+                    await setDoc(doc.ref, { quantity: newQuantity }, { merge: true });
+                });
+            } 
         }
     }
 

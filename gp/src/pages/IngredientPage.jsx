@@ -18,6 +18,7 @@ const IngredientPage = () => {
         // Took out unsubscribe
         return () => unsubscribe();
     }, []);
+    
     return (
         <div>
             <NavigationBar />

@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import ShoppingListPage from './ShoppingListPage';
+import ShoppingListPage from '../ShoppingListPage';
 
 // Mock the NavigationBar component since it's not the focus of this test
 jest.mock('../components/NavigationBar', () => () => <div>NavigationBarMock</div>);

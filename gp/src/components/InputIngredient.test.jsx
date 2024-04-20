@@ -24,20 +24,32 @@ jest.mock('firebase/firestore', () => ({
 describe('InputIngredient', () => {
   const mockUser = { uid: '12345' };
 
-  it('toggles the form display when the add button is clicked', () => {
+  it('renders without showing the form initially', () => {
     render(<InputIngredient user={mockUser} />);
-
-    // Initially, the form should not be displayed
+    // Check that the form is not visible initially
     expect(screen.queryByLabelText('Ingredient Name:')).not.toBeInTheDocument();
+  });
+
+  it('displays the form when the add button is clicked', () => {
+    render(<InputIngredient user={mockUser} />);
 
     // Click the "Add Ingredient" button to show the form
     fireEvent.click(screen.getByRole('button', { name: 'Add Ingredient' }));
 
-    // Now the form should be visible
+    // Check if the form is now visible
     expect(screen.getByLabelText('Ingredient Name:')).toBeInTheDocument();
     expect(screen.getByLabelText('Quantity:')).toBeInTheDocument();
     expect(screen.getByLabelText('Calories:')).toBeInTheDocument();
     expect(screen.getByLabelText('Expiration Date (optional):')).toBeInTheDocument();
+  });
+
+  it('has functional form controls after form is visible', () => {
+    render(<InputIngredient user={mockUser} />);
+
+    // Open the form
+    fireEvent.click(screen.getByRole('button', { name: 'Add Ingredient' }));
+
+    // Verify all form elements are in place
     expect(screen.getByRole('button', { name: 'Add Ingredient' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument();
   });

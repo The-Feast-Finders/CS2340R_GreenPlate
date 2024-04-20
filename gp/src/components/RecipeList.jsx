@@ -86,9 +86,34 @@ const RecipeList = ({ user }) => {
                 }
             }
     
-        } catch {}
+            const totalCalories = recipe.ingredients.reduce((acc, ingredient) => {
+                const pantryItem = pantry.find(item => item.ingredient.toLowerCase() === ingredient.name.toLowerCase());
+                return acc + (pantryItem ? pantryItem.calories * ingredient.quantity : 0);
+            }, 0);
+    
+            if (totalCalories > 0) {
+                const mealData = {
+                    name: recipe.name,
+                    calories: totalCalories,
+                    timestamp: Timestamp.fromDate(new Date())
+                };
+    
+                const userRef = doc(db, 'users', user.uid);
+                await setDoc(userRef, { meals: mealData }, { merge: true });
+    
+                const mealsRef = collection(db, 'meals');
+                await addDoc(mealsRef, { ...mealData, userId: user.uid });
+                
+                alert('Meal added successfully! Reloading the page...');
+                window.location.reload();
+            } else {
+                console.log('No valid ingredients found for the recipe.');
+            }
+        } catch (error) {
+            console.error('Error making recipe:', error);
+            alert(`Failed to make recipe. Please try again. Error: ${error.message}`);
+        }
     }
-
     
 
     // method made 

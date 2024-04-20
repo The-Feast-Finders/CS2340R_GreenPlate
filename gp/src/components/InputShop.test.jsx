@@ -14,19 +14,28 @@ jest.mock('firebase/firestore', () => ({
 }));
 
 describe('InputShop', () => {
-  it('renders without crashing', () => {
+  beforeEach(() => {
     // Setup the Firebase mocks to return a dummy object
     initializeApp.mockReturnValue({});
     getFirestore.mockReturnValue({});
+  });
 
-    // Provide the minimal props expected by the component
+  test('renders Ingredient Name input', () => {
     const user = { uid: '123' }; // Mock user object
-    
     render(<InputShop user={user} />);
-    
-    // Check for a basic element to confirm the component has rendered
     expect(screen.getByLabelText(/Ingredient Name/i)).toBeInTheDocument();
+  });
+
+  test('renders Quantity input', () => {
+    const user = { uid: '123' }; // Mock user object
+    render(<InputShop user={user} />);
     expect(screen.getByLabelText(/Quantity/i)).toBeInTheDocument();
+  });
+
+  test('renders Add Ingredient button', () => {
+    const user = { uid: '123' }; // Mock user object
+    render(<InputShop user={user} />);
     expect(screen.getByRole('button', { name: /Add Ingredient/i })).toBeInTheDocument();
   });
+
 });

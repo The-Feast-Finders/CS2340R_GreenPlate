@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/user-event": "^13.5.0",
     "chart.js": "^4.4.2",
     "firebase": "^10.11.0",
     "jscheckstyle": "^0.0.9",
@@ -43,6 +42,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^15.0.2",
+    "@testing-library/user-event": "^14.5.2",
     "jest": "^28.1.3"
   }
 }

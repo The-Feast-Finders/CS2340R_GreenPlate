@@ -6,23 +6,23 @@ import RegistrationForm from './RegistrationForm';
 describe('RegistrationForm', () => {
   test('submits correct email and password on registration', () => {
     const mockOnRegister = jest.fn();
+
     render(
       <Router>
         <RegistrationForm onRegister={mockOnRegister} />
       </Router>
     );
 
-    // Fill in the form
-    fireEvent.change(screen.getByLabelText(/email/i), {
-      target: { value: 'user@example.com' }
-    });
-    fireEvent.change(screen.getByLabelText(/password/i), {
-      target: { value: 'userPassword123' }
-    });
+    // Fill in the form fields
+    const emailInput = screen.getByLabelText('Email');
+    const passwordInput = screen.getByLabelText('Password');
+    fireEvent.change(emailInput, { target: { value: 'user@example.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'userPassword123' } });
 
     // Submit the form
     fireEvent.click(screen.getByRole('button', { name: /register/i }));
 
+    // Assertions
     expect(mockOnRegister).toHaveBeenCalledWith('user@example.com', 'userPassword123');
   });
 });

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { getFirestore, doc, setDoc, collection, addDoc, Timestamp, getDocs, query, where } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, collection, addDoc, Timestamp, getDocs, query, where, deleteDoc } from 'firebase/firestore';
 
 const RecipeList = ({ user }) => {
     const [recipes, setRecipes] = useState([]);
@@ -44,59 +44,46 @@ const RecipeList = ({ user }) => {
     };
 
     const makeRecipe = async (recipe) => {
-        //Remove ingredients from pantry
-        for (const ingredient of recipe.ingredients) {
-            const pantryItem = pantry.find(pantryIngredient => pantryIngredient.ingredient.toLowerCase() === ingredient.name.toLowerCase());
-        
-            if (!pantryItem) {
-                console.log(`Ingredient ${ingredient.name} not found in pantry.`);
-                continue; // Skip to next iteration if ingredient not found in pantry
-            }
-        
-            const newQuantity = pantryItem.quantity - ingredient.quantity;
-        
-            const ingredientData = {
-                ingredient: ingredient.name,
-                quantity: newQuantity >= 0 ? newQuantity : 0, // Ensure quantity doesn't go below 0
-                calories: ingredient.calories,
-                expDate: ingredient.expDate
-            };
-        
-            try {
-                const pantryRef = collection(db, 'pantry', user.uid, 'ingredients', pantryItem.id); // Assuming pantryItem has an id field
-                await setDoc(pantryRef, ingredientData);
-                console.log(`Pantry updated for ingredient: ${ingredient.name}`);
-            } catch (error) {
-                console.error('Error updating pantry:', error);
-            }
+        if (!user || !user.uid) {
+            console.error('User is not logged in or user ID is undefined');
+            alert('You must be logged in to cook a recipe.');
+            return;
         }
-
-        //Add meal to database
-        if (user) {
-            const mealData = {
-                name: recipe.name,
-
-                //add calories from recipe when added to database!!!
-                calories: 10,
-                timestamp: Timestamp.fromDate(new Date()) // Save the current time as a Firestore Timestamp
-            };
-
-            // Update user's meal array
-            const userRef = doc(getFirestore(), 'users', user.uid);
-            await setDoc(userRef, { meals: mealData }, { merge: true });
-
-            // Add meal to general meals collection
-            const mealsRef = collection(getFirestore(), 'meals');
-            await addDoc(mealsRef, { ...mealData, userId: user.uid });
-
-            console.log('Meal added successfully');
-
-            // Reload the page
-            window.location.reload();
-        } else {
-            console.log('User is not logged in');
-        }
+    
+        try {
+            const db = getFirestore();
+            const pantryRef = collection(db, `pantry/${user.uid}/ingredients`);
+            
+            for (const ingredient of recipe.ingredients) {
+                const q = query(pantryRef, where("ingredient", "==", ingredient.name.toLowerCase().trim()));
+                const querySnapshot = await getDocs(q);
+    
+                let pantryItem = null;
+                querySnapshot.forEach(doc => {
+                    if (doc.data().quantity > 0) {
+                        pantryItem = { id: doc.id, ...doc.data() };
+                    }
+                });
+    
+                if (!pantryItem) {
+                    console.log(`Ingredient ${ingredient.name} not found in pantry or missing ID.`);
+                    continue; // Skip to next iteration if ingredient not found in pantry
+                }
+    
+                const newQuantity = Math.max(0, pantryItem.quantity - ingredient.quantity);
+                const ingredientData = {
+                    ingredient: ingredient.name,
+                    quantity: newQuantity,
+                    calories: pantryItem.calories,
+                    expDate: pantryItem.expDate                    };
+                await setDoc(doc(pantryRef, pantryItem.id), ingredientData);
+                console.log(`Pantry updated for ingredient: ${ingredient.name}`);    
+            }
+    
+        } catch {}
     }
+
+    
 
     // method made 
     const addMissingIngredients = async (recipe) => {
@@ -169,7 +156,7 @@ const RecipeList = ({ user }) => {
                                 </ul>
                                 <div>
                                     {canMakeRecipe(recipe) ? (
-                                            <button onClick={()=>makeRecipe(recipe)}>Make Recipe</button>
+                                            <button onClick={()=>makeRecipe(recipe)}>Cook Recipe</button>
                                         ) : (
                                             <button onClick={()=>addMissingIngredients(recipe)}>Add Missing Ingredients</button>
                                     )}

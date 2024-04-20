@@ -20,7 +20,6 @@ describe('RegistrationForm', () => {
     fireEvent.change(passwordInput, { target: { value: 'userPassword123' } });
 
     // Submit the form
-    fireEvent.click(screen.getByRole('button', { name: /register/i }));
 
     // Assertions
     expect(mockOnRegister).toHaveBeenCalledWith('user@example.com', 'userPassword123');

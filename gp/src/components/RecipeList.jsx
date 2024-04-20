@@ -71,13 +71,19 @@ const RecipeList = ({ user }) => {
                 }
     
                 const newQuantity = Math.max(0, pantryItem.quantity - ingredient.quantity);
-                const ingredientData = {
-                    ingredient: ingredient.name,
-                    quantity: newQuantity,
-                    calories: pantryItem.calories,
-                    expDate: pantryItem.expDate                    };
-                await setDoc(doc(pantryRef, pantryItem.id), ingredientData);
-                console.log(`Pantry updated for ingredient: ${ingredient.name}`);    
+                if (newQuantity > 0) {
+                    const ingredientData = {
+                        ingredient: ingredient.name,
+                        quantity: newQuantity,
+                        calories: pantryItem.calories,
+                        expDate: pantryItem.expDate
+                    };
+                    await setDoc(doc(pantryRef, pantryItem.id), ingredientData);
+                    console.log(`Pantry updated for ingredient: ${ingredient.name}`);
+                } else {
+                    await deleteDoc(doc(pantryRef, pantryItem.id)); // Delete the document if quantity is 0
+                    console.log(`Pantry item for ${ingredient.name} deleted as quantity went to zero.`);
+                }
             }
     
         } catch {}

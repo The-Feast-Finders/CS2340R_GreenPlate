@@ -34,8 +34,9 @@ const InputMealPage = () => {
             <NavigationBar />
             <div className="frame">
                 <div className="header-container">
-                    <h1>Input Your Meals Here!</h1>
+                    <h1>Input Meals</h1>
                 </div>
+                <p style={{ marginTop: '0' }}>Keep track of your meals and view your calorie intake distribution</p>
                 <div className="content-container">
                     <div className="left-section">
                         <UserInfo user={user} />

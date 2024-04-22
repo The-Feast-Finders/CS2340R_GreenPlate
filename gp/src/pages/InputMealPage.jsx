@@ -32,20 +32,20 @@ const InputMealPage = () => {
     return (
         <div>
             <NavigationBar />
-            <div className="frame">
+            <div>
                 <div className="header-container">
                     <h1>Input Your Meals Here!</h1>
                 </div>
-                <div className="content-container">
-                    <div className="left-section">
+                <div className="content-container" >
+                    <div className="left-section" style={{marginLeft: '300px'}}>
                         <UserInfo user={user} />
                         <InputMeal user={user} />
-                        <div className="graph-buttons">
+                        <div className="graph-buttons" style={{ display: 'flex', gap: '10px' }}>
                             <button onClick={() => setActiveGraph('pie')}>Pie Graph</button>
                             <button onClick={() => setActiveGraph('bar')}>Bar Graph</button>
                         </div>
                     </div>
-                    <div className="right-section">
+                    <div className="right-section" style={{marginRight: '300px'}}>
                         <div className="padding-graph">
                             <div className="graph-area">
                                 {renderGraph()}

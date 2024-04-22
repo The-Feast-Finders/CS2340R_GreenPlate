@@ -47,13 +47,17 @@ const PantryList = ({ user }) => {
     return (
         <div>
             <h2>Your Pantry Items</h2>
-            <ul style={{ overflowY: 'auto', maxHeight: '500px', width: '500px' }}>
+            <ul style={{ overflowY: 'auto', maxHeight: '500px', width: '500px', textAlign: 'left', listStyle: 'none' }}>
                 {pantryItems.map(item => (
-                    <li key={item.id}>
-                        {item.ingredient} . . . {item.quantity} . . . {item.calories} calories
-                        {item.expDate && ` . . . ${item.expDate.toDate().toLocaleDateString()}`}
-                        <button style={{paddingLeft: '13px', paddingRight: '13px', marginLeft: '5px', marginRight: '5px'}} onClick={() => handleIncrement(item.id, item.quantity)}>+</button>
-                        <button style={{paddingLeft: '15px', paddingRight: '15px', marginLeft: '5px', marginRight: '5px'}} onClick={() => handleDecrement(item.id, item.quantity)}>-</button>
+                    <li key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '5px' }}>
+                        <div>
+                            {item.ingredient} . . . {item.quantity} . . . {item.calories} calories
+                            {item.expDate && ` . . . ${item.expDate.toDate().toLocaleDateString()}`}
+                        </div>
+                        <div>
+                            <button style={{ paddingLeft: '13px', paddingRight: '13px', marginLeft: '5px', marginRight: '5px' }} onClick={() => handleIncrement(item.id, item.quantity)}>+</button>
+                            <button style={{ paddingLeft: '15px', paddingRight: '15px', marginLeft: '5px', marginRight: '5px' }} onClick={() => handleDecrement(item.id, item.quantity)}>-</button>
+                        </div>
                     </li>
                 ))}
             </ul>

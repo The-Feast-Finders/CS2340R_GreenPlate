@@ -75,8 +75,8 @@ const RecipeList = ({ user }) => {
                     const ingredientData = {
                         ingredient: ingredient.name,
                         quantity: newQuantity,
-                        calories: pantryItem.calories,
-                        expDate: pantryItem.expDate
+                        calories: (pantryItem.calories ? pantryItem.calories : 0),
+                        expDate: (pantryItem.expDate ? pantryItem.expDate : null)
                     };
                     await setDoc(doc(pantryRef, pantryItem.id), ingredientData);
                     console.log(`Pantry updated for ingredient: ${ingredient.name}`);
@@ -88,10 +88,10 @@ const RecipeList = ({ user }) => {
     
             const totalCalories = recipe.ingredients.reduce((acc, ingredient) => {
                 const pantryItem = pantry.find(item => item.ingredient.toLowerCase() === ingredient.name.toLowerCase());
-                return acc + (pantryItem ? pantryItem.calories * ingredient.quantity : 0);
+                return acc + (pantryItem && (pantryItem.calories > 0) ? pantryItem.calories * ingredient.quantity : 0);
             }, 0);
     
-            if (totalCalories > 0) {
+            if (totalCalories >= 0) {
                 const mealData = {
                     name: recipe.name,
                     calories: totalCalories,
@@ -146,7 +146,9 @@ const RecipeList = ({ user }) => {
                 // Add a new ingredient to the shopping list
                 await addDoc(shoppingListRef, {
                     ingredient: ingredient.name,
-                    quantity: requiredQuantity
+                    quantity: requiredQuantity,
+                    calories: 0,
+                    expDate: null
                 });
             }
         };

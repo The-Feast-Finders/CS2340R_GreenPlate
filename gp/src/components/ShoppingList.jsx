@@ -97,7 +97,7 @@ const ShoppingList = ({ user }) => {
                 <button style={{ width: '250px', fontWeight: 'bold' }} onClick={buyItems}>Buy Selected Items</button>
                 <button style={{ width: '250px', fontWeight: 'bold' }} onClick={buyAllItems}>Buy All Items</button>
             </div>
-            <ul style={{ overflowY: 'auto', maxHeight: '500px' }}>
+            <ul style={{ overflowY: 'auto', maxHeight: '500px', textAlign: 'left', marginLeft: '100px' }}>
                 {shoppingItems.map(item => (
                     <li key={item.id}>
                         <input
@@ -107,7 +107,7 @@ const ShoppingList = ({ user }) => {
                         />
                         {item.ingredient} - Quantity: {item.quantity}
 
-                        <button style={{paddingLeft: '13px', paddingRight: '13px', marginLeft: '5px', marginRight: '5px'}} onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
+                        <button style={{paddingLeft: '13px', paddingRight: '13px', marginLeft: '15px', marginRight: '5px'}} onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
                         <button style={{paddingLeft: '15px', paddingRight: '15px', marginLeft: '5px', marginRight: '5px'}} onClick={() => updateQuantity(item.id, item.quantity - 1)}>-</button>
                     </li>
                 ))}

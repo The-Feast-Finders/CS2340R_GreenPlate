@@ -37,9 +37,13 @@ const ProfilePage = () => {
                     <h1 className="ProfileTitle">Welcome to your Profile!</h1>
                     <a onClick={logout} className="logout-link">Logout</a>
                 </div>
-                <div className="user-data-container">
-                    {currentUser ? <UserInfo user={currentUser} /> : <p>Loading user data...</p>}
-                    <InputData user={currentUser} />
+                <div className="user-data-container" style={{gap: '100px'}}>
+                    <div className='left-container'>
+                        {currentUser ? <UserInfo user={currentUser} /> : <p>Loading user data...</p>}
+                    </div>
+                    <div className='right-container'>
+                        <InputData user={currentUser} />
+                    </div>
                 </div>
             </div>
         </div>

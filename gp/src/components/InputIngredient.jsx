@@ -88,7 +88,6 @@ const InputIngredient = ({ user }) => {
                         <button type="submit" style={{width: '125px'}} className="your-submit-btn-class">Add Ingredient</button>
                         <button type="button" style={{width: '125px'}} onClick={toggleForm} className="your-cancel-btn-class">Cancel</button>
                     </div>
-
                     {error && <p className="your-error-class">{error}</p>}
                 </form>
             ) : (

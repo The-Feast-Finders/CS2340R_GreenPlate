@@ -61,6 +61,7 @@ const InputIngredient = ({ user }) => {
             } catch (error) {
                 setError('Error adding ingredient to pantry.');
             }
+            window.location.reload();
         }
     }
 
@@ -69,21 +70,24 @@ const InputIngredient = ({ user }) => {
         <div>
             {showForm ? (
                 <form onSubmit={handleSubmit}>
-                    <label htmlFor="ingredientName">Ingredient Name:</label>
-                    <input id="ingredientName" type="text" value={ingredientName} onChange={(e) => setIngredientName(e.target.value)} className="your-css-class" />
+                    <div>
+                        <label htmlFor="ingredientName">Ingredient Name:</label>
+                        <input id="ingredientName" type="text" value={ingredientName} style={{width: '200px', marginBottom: '10px'}} onChange={(e) => setIngredientName(e.target.value)} className="your-css-class" />
 
-                    <label htmlFor="quantity">Quantity:</label>
-                    <input id="quantity" type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} className="your-css-class" />
+                        <label htmlFor="quantity">Quantity:</label>
+                        <input id="quantity" type="number" value={quantity} style={{width: '100px'}} onChange={(e) => setQuantity(e.target.value)} className="your-css-class" />
 
-                    <label htmlFor="calories">Calories:</label>
-                    <input id="calories" type="number" value={calories} onChange={(e) => setCalories(e.target.value)} className="your-css-class" />
+                        <label htmlFor="calories">Calories:</label>
+                        <input id="calories" type="number" value={calories} style={{width: '100px'}} onChange={(e) => setCalories(e.target.value)} className="your-css-class" />
 
-                    <label htmlFor="expDate">Expiration Date (optional):</label>
-                    <input id="expDate" type="date" value={expDate} onChange={(e) => setExpDate(e.target.value)} className="your-css-class" />
-
-                    <button type="submit" className="your-submit-btn-class">Add Ingredient</button>
-                    <button type="button" onClick={toggleForm} className="your-cancel-btn-class">Cancel</button>
-
+                        <label htmlFor="expDate">Expiration Date (optional):</label>
+                        <input id="expDate" type="date" value={expDate} onChange={(e) => setExpDate(e.target.value)} className="your-css-class" />
+                    </div>
+                    
+                    <div className='content-container' style={{gap: '10px'}}>
+                        <button type="submit" style={{width: '125px'}} className="your-submit-btn-class">Add Ingredient</button>
+                        <button type="button" style={{width: '125px'}} onClick={toggleForm} className="your-cancel-btn-class">Cancel</button>
+                    </div>
                     {error && <p className="your-error-class">{error}</p>}
                 </form>
             ) : (

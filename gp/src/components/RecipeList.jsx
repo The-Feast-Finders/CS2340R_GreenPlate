@@ -1,31 +1,41 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { getFirestore, doc, setDoc, collection, addDoc, Timestamp, getDocs, query, where, deleteDoc } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, collection, addDoc, Timestamp, getDocs, query, where, deleteDoc, onSnapshot} from 'firebase/firestore';
+import { useRecipeStrategy } from './useRecipeStrategy'; // Adjust the path as necessary
+import { sortAlphabetically } from './recipeStrategies';
 
 const RecipeList = ({ user }) => {
     const [recipes, setRecipes] = useState([]);
     const [selectedRecipeId, setSelectedRecipeId] = useState(null);
     const [pantry, setPantry] = useState([]);
     const [filterMakeable, setFilterMakeable] = useState(false); // State to manage filtering
+    const [sortMethod, setSortMethod] = useState(() => sortAlphabetically);
+    const [isSorted, setIsSorted] = useState(false);
     const db = getFirestore();
 
     useEffect(() => {
-        const fetchRecipes = async () => {
-            const querySnapshot = await getDocs(collection(db, 'cookbook'));
+        const recipesRef = collection(db, 'cookbook');
+        const unsubscribeRecipes = onSnapshot(recipesRef, (querySnapshot) => {
             const recipesData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             setRecipes(recipesData);
-        };
-
-        const fetchPantry = async () => {
-            if (user) {
-                const pantryRef = collection(db, `pantry/${user.uid}/ingredients`);
-                const querySnapshot = await getDocs(pantryRef);
+        });
+    
+        let unsubscribePantry = () => {};
+        if (user) {
+            const pantryRef = collection(db, `pantry/${user.uid}/ingredients`);
+            unsubscribePantry = onSnapshot(pantryRef, (querySnapshot) => {
                 const pantryData = querySnapshot.docs.map(doc => doc.data());
                 setPantry(pantryData);
-            }
+            });
+        }
+    
+        // Cleanup function to unsubscribe from the snapshots when the component unmounts
+        return () => {
+            unsubscribeRecipes();
+            unsubscribePantry();
         };
-        fetchRecipes();
-        fetchPantry();
     }, [user, db]);
+    
+    const sortedRecipes = useRecipeStrategy(recipes, isSorted ? sortAlphabetically : (recipes) => recipes);
 
     const canMakeRecipe = (recipe) => {
         return recipe.ingredients.every(ingredient => {
@@ -38,9 +48,8 @@ const RecipeList = ({ user }) => {
         return filterMakeable ? recipes.filter(canMakeRecipe) : recipes;
     }, [recipes, pantry, filterMakeable]);
 
-    const sortRecipesAlphabetically = () => {
-        const sortedRecipes = [...recipes].sort((a, b) => a.name.localeCompare(b.name));
-        setRecipes(sortedRecipes);
+    const toggleSort = () => {
+        setIsSorted(!isSorted);
     };
 
     const makeRecipe = async (recipe) => {
@@ -69,14 +78,14 @@ const RecipeList = ({ user }) => {
                     console.log(`Ingredient ${ingredient.name} not found in pantry or missing ID.`);
                     continue; // Skip to next iteration if ingredient not found in pantry
                 }
-    
+
                 const newQuantity = Math.max(0, pantryItem.quantity - ingredient.quantity);
                 if (newQuantity > 0) {
                     const ingredientData = {
                         ingredient: ingredient.name,
                         quantity: newQuantity,
-                        calories: pantryItem.calories,
-                        expDate: pantryItem.expDate
+                        calories: (pantryItem.calories ? pantryItem.calories : 0),
+                        expDate: (pantryItem.expDate ? pantryItem.expDate : null)
                     };
                     await setDoc(doc(pantryRef, pantryItem.id), ingredientData);
                     console.log(`Pantry updated for ingredient: ${ingredient.name}`);
@@ -85,13 +94,13 @@ const RecipeList = ({ user }) => {
                     console.log(`Pantry item for ${ingredient.name} deleted as quantity went to zero.`);
                 }
             }
-    
+
             const totalCalories = recipe.ingredients.reduce((acc, ingredient) => {
                 const pantryItem = pantry.find(item => item.ingredient.toLowerCase() === ingredient.name.toLowerCase());
-                return acc + (pantryItem ? pantryItem.calories * ingredient.quantity : 0);
+                return acc + (pantryItem && (pantryItem.calories > 0) ? pantryItem.calories * ingredient.quantity : 0);
             }, 0);
     
-            if (totalCalories > 0) {
+            if (totalCalories >= 0) {
                 const mealData = {
                     name: recipe.name,
                     calories: totalCalories,
@@ -146,7 +155,9 @@ const RecipeList = ({ user }) => {
                 // Add a new ingredient to the shopping list
                 await addDoc(shoppingListRef, {
                     ingredient: ingredient.name,
-                    quantity: requiredQuantity
+                    quantity: requiredQuantity,
+                    calories: 0,
+                    expDate: null
                 });
             }
         };
@@ -164,13 +175,15 @@ const RecipeList = ({ user }) => {
                 <h2>Recipe List</h2>
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
-                <button style={{ width: '250px', fontWeight: 'bold' }} onClick={sortRecipesAlphabetically}>Sort Alphabetically</button>
+                <button style={{ width: '250px', fontWeight: 'bold' }} onClick={toggleSort}>
+                    {isSorted ? 'Unsort Recipes' : 'Sort Alphabetically'}
+                </button>
                 <button style={{ width: '250px', fontWeight: 'bold' }} onClick={toggleFilterMakeable}>
                     {filterMakeable ? 'Show All Recipes' : 'Show Available Recipes'}
                 </button>
             </div>
             <div style={{ overflowY: 'auto', maxHeight: '400px' }}>
-                {filteredRecipes.map(recipe => (
+                {sortedRecipes.map(recipe => (
                     <div key={recipe.id} onClick={() => setSelectedRecipeId(recipe.id)}>
                         <p style={{ ...(canMakeRecipe(recipe) ? { color: 'green' } : null),
                                     ...(selectedRecipeId === recipe.id ? { fontWeight: 'bold' } : null) }}>
@@ -187,9 +200,9 @@ const RecipeList = ({ user }) => {
                                 </ul>
                                 <div>
                                     {canMakeRecipe(recipe) ? (
-                                            <button onClick={()=>makeRecipe(recipe)}>Cook Recipe</button>
-                                        ) : (
-                                            <button onClick={()=>addMissingIngredients(recipe)}>Add Missing Ingredients</button>
+                                        <button onClick={() => makeRecipe(recipe)}>Cook Recipe</button>
+                                    ) : (
+                                        <button onClick={() => addMissingIngredients(recipe)}>Add Missing Ingredients</button>
                                     )}
                                     <br /><br />
                                 </div>                            

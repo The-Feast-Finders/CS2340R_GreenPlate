@@ -70,9 +70,10 @@ const InputIngredient = ({ user }) => {
             {showForm ? (
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="ingredientName">Ingredient Name:</label>
-                    <input id="ingredientName" type="text" value={ingredientName} onChange={(e) => setIngredientName(e.target.value)} className="your-css-class" />
+                    <input id="ingredientName" type="text" value={ingredientName} onChange={(e) => setIngredientName(e.target.value)} className="your-css-class" 
+                    style={{ border: '1px solid #ccc', borderRadius: '3px', padding: '5px' }}/>
 
-                    <label htmlFor="quantity">Quantity:</label>
+                    <label htmlFor="quantity" style={{ marginTop: '10px' }}>Quantity:</label>
                     <input id="quantity" type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} className="your-css-class" />
 
                     <label htmlFor="calories">Calories:</label>

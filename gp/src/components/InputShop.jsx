@@ -61,10 +61,12 @@ const InputShop = ({ user }) => {
         <div>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="ingredientName">Ingredient Name:</label>
-                <input id="ingredientName" type="text" value={name} onChange={(e) => setName(e.target.value)} className="your-css-class" />
+                <input id="ingredientName" type="text" value={name} onChange={(e) => setName(e.target.value)} 
+                className="your-css-class" style={{ border: '1px solid #ccc', borderRadius: '3px', padding: '5px' }}/>
 
-                <label htmlFor="quantity">Quantity:</label>
-                <input id="quantity" type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} className="your-css-class" />
+                <label htmlFor="quantity" style={{ marginTop: '10px' }}>Quantity:</label>
+                <input id="quantity" type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} 
+                className="your-css-class" style={{ border: '1px solid #ccc', borderRadius: '3px', padding: '5px' }}/>
 
                 <button type="submit" className="your-submit-btn-class">Add Ingredient</button>
                 {error && <p className="your-error-class">{error}</p>}

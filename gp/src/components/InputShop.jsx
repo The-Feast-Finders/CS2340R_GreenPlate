@@ -72,7 +72,7 @@ const InputShop = ({ user }) => {
                 
                 <div>
                     <label htmlFor="ingredientName">Ingredient Name:</label>
-                    <input id="ingredientName" type="text" value={name} onChange={(e) => setName(e.target.value)} style={{width: '300px', marginBottom: '20px'}} className="your-css-class" />
+                    <input id="ingredientName" type="text" value={name} onChange={(e) => setName(e.target.value)} style={{width: '300px', marginBottom: '20px', height: '25px'}} className="your-css-class" />
 
                     <label htmlFor="quantity">Quantity:</label>
                     <input id="quantity" type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} style={{width: '100px'}} className="your-css-class" />

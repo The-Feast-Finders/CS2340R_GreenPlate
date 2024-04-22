@@ -5,6 +5,7 @@ const InputShop = ({ user }) => {
     // State variables
     const [name, setName] = useState('');
     const [quantity, setQuantity] = useState('');
+    const [calories, setCalories] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
@@ -17,6 +18,12 @@ const InputShop = ({ user }) => {
 
         const parsedQuantity = parseInt(quantity, 10);  // Rename this variable
         if (parsedQuantity <= 0) {
+            setError('');
+            return;
+        }
+
+        const parsedCalories = parseInt(calories, 10);
+        if (parsedCalories <= 0) {
             setError('');
             return;
         }
@@ -42,6 +49,8 @@ const InputShop = ({ user }) => {
             const ingredientData = {
                 ingredient: name,
                 quantity: parsedQuantity,
+                calories: parsedCalories, 
+                expDate: null
             };
 
             try {
@@ -67,7 +76,16 @@ const InputShop = ({ user }) => {
                 <label htmlFor="quantity" style={{ marginTop: '10px' }}>Quantity:</label>
                 <input id="quantity" type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} 
                 className="your-css-class" style={{ border: '1px solid #ccc', borderRadius: '3px', padding: '5px' }}/>
+                <div>
+                    <label htmlFor="ingredientName">Ingredient Name:</label>
+                    <input id="ingredientName" type="text" value={name} onChange={(e) => setName(e.target.value)} style={{width: '300px', marginBottom: '20px'}} className="your-css-class" />
 
+                    <label htmlFor="quantity">Quantity:</label>
+                    <input id="quantity" type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} style={{width: '100px'}} className="your-css-class" />
+
+                    <label htmlFor="calories">Calories:</label>
+                    <input id="calories" type="number" value={calories} onChange={(e) => setCalories(e.target.value)} style={{width: '100px'}} className="your-css-class" />
+                </div>
                 <button type="submit" className="your-submit-btn-class">Add Ingredient</button>
                 {error && <p className="your-error-class">{error}</p>}
                 {success && <p className="your-success-class">{success}</p>}

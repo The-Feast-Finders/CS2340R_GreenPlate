@@ -22,8 +22,9 @@ const ShoppingListPage = () => {
         <div>
             <NavigationBar />
             <div className='frame'>
-                <h1>Shopping List</h1>
-                <p>Welcome to the Shopping List</p>
+                <div>
+                    <h1 style={{ marginBottom: '0' }}>Shopping List</h1>
+                </div>
                 <InputShop user={user} />
                 <ShoppingList user={user} />
             </div>

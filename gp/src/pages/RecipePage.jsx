@@ -21,9 +21,10 @@ const RecipePage = () => {
         <div>
             <NavigationBar />
             <div className='frame'>
-                <div className="header-container">
+                <div className="header-container" style={{ textAlign: 'center' }}>
                     <h1>Recipe Page</h1>
                 </div>
+                <p style={{ marginTop: '0' }}>Add new recipes and view your existing collection</p>
                 <div className="content-container" style={{ display: 'flex', gap: '10px'}}>
                     <div className="left-section">
                         <RecipeList user={user}/>

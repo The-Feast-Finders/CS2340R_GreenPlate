@@ -6,6 +6,7 @@ const RecipeList = ({ user }) => {
     const [selectedRecipeId, setSelectedRecipeId] = useState(null);
     const [pantry, setPantry] = useState([]);
     const [filterMakeable, setFilterMakeable] = useState(false); // State to manage filtering
+    const [isSorted, setIsSorted] = useState(false);
     const db = getFirestore();
 
     useEffect(() => {
@@ -75,7 +76,7 @@ const RecipeList = ({ user }) => {
                     console.log(`Ingredient ${ingredient.name} not found in pantry or missing ID.`);
                     continue; // Skip to next iteration if ingredient not found in pantry
                 }
-    
+
                 const newQuantity = Math.max(0, pantryItem.quantity - ingredient.quantity);
                 if (newQuantity > 0) {
                     const ingredientData = {
@@ -91,7 +92,7 @@ const RecipeList = ({ user }) => {
                     console.log(`Pantry item for ${ingredient.name} deleted as quantity went to zero.`);
                 }
             }
-    
+
             const totalCalories = recipe.ingredients.reduce((acc, ingredient) => {
                 const pantryItem = pantry.find(item => item.ingredient.toLowerCase() === ingredient.name.toLowerCase());
                 return acc + (pantryItem && (pantryItem.calories > 0) ? pantryItem.calories * ingredient.quantity : 0);

@@ -76,8 +76,8 @@ const ShoppingList = ({ user }) => {
                             onChange={() => handleSelectItem(item.id)}
                         />
                         {item.ingredient} - Quantity: {item.quantity}
-                        <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
-                        <button onClick={() => updateQuantity(item.id, item.quantity - 1)}>-</button>
+                        <button onClick={() => updateQuantity(item.id, item.quantity + 1)} style={{ marginLeft: '5px' , fontSize: '1.2em'}}>+</button>
+                        <button onClick={() => updateQuantity(item.id, item.quantity - 1)} style={{fontSize: '1.2em'}}>-</button>
                     </li>
                 ))}
             </ul>

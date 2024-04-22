@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { getFirestore, doc, setDoc, collection, addDoc, Timestamp, getDocs, query, where, deleteDoc } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, collection, addDoc, Timestamp, getDocs, query, where, deleteDoc, onSnapshot} from 'firebase/firestore';
 
 const RecipeList = ({ user }) => {
     const [recipes, setRecipes] = useState([]);
@@ -9,23 +9,29 @@ const RecipeList = ({ user }) => {
     const db = getFirestore();
 
     useEffect(() => {
-        const fetchRecipes = async () => {
-            const querySnapshot = await getDocs(collection(db, 'cookbook'));
+        const recipesRef = collection(db, 'cookbook');
+        const unsubscribeRecipes = onSnapshot(recipesRef, (querySnapshot) => {
             const recipesData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             setRecipes(recipesData);
-        };
-
-        const fetchPantry = async () => {
-            if (user) {
-                const pantryRef = collection(db, `pantry/${user.uid}/ingredients`);
-                const querySnapshot = await getDocs(pantryRef);
+        });
+    
+        let unsubscribePantry = () => {};
+        if (user) {
+            const pantryRef = collection(db, `pantry/${user.uid}/ingredients`);
+            unsubscribePantry = onSnapshot(pantryRef, (querySnapshot) => {
                 const pantryData = querySnapshot.docs.map(doc => doc.data());
                 setPantry(pantryData);
-            }
+            });
+        }
+    
+        // Cleanup function to unsubscribe from the snapshots when the component unmounts
+        return () => {
+            unsubscribeRecipes();
+            unsubscribePantry();
         };
-        fetchRecipes();
-        fetchPantry();
     }, [user, db]);
+    
+
 
     const canMakeRecipe = (recipe) => {
         return recipe.ingredients.every(ingredient => {

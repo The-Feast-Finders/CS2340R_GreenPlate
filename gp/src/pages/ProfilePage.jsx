@@ -37,6 +37,7 @@ const ProfilePage = () => {
                     <h1 className="ProfileTitle">Welcome to your Profile!</h1>
                     <a onClick={logout} className="logout-link">Logout</a>
                 </div>
+                <p style={{ textAlign: 'center' , marginTop: '1' }}>Update your information in order to receive your recommended daily calorie intake</p>
                 <div className="user-data-container">
                     {currentUser ? <UserInfo user={currentUser} /> : <p>Loading user data...</p>}
                     <InputData user={currentUser} />

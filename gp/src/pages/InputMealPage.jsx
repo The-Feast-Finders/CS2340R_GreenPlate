@@ -48,7 +48,7 @@ const InputMealPage = () => {
                     <div className="right-section">
                         <div className="padding-graph">
                             <div className="graph-area">
-                                {renderGraph()}
+                                {activeGraph ? renderGraph() : <p>Select a graph type to track your calorie intake</p>}
                             </div>
                         </div>
                     </div>

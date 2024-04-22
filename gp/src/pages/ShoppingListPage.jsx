@@ -26,8 +26,14 @@ const ShoppingListPage = () => {
                     <h1 style={{ marginBottom: '0' }}>Shopping List</h1>
                 </div>
                 <p style={{ margingTop: '0' }}>Keep track of your groceries by viewing and updating your shopping list</p>
-                <InputShop user={user} />
-                <ShoppingList user={user} />
+                <div className="content-container" style={{ display: 'flex', gap: '10px'}}>
+                    <div className="left-section">
+                        <ShoppingList user={user} />
+                    </div>
+                    <div className="right-section">
+                        <InputShop user={user} />
+                    </div>
+                </div>
             </div>
         </div>
     );

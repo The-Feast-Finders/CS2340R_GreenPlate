@@ -10,7 +10,7 @@ const ShoppingListPage = () => {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        const auth = getAuth();
+        const auth = getAuth(); 
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
         });
@@ -22,8 +22,10 @@ const ShoppingListPage = () => {
         <div>
             <NavigationBar />
             <div className='frame'>
-                <h1>Shopping List</h1>
-                <p>Welcome to the Shopping List</p>
+                <div>
+                    <h1 style={{ marginBottom: '0' }}>Shopping List</h1>
+                </div>
+                <p style={{ margingTop: '0' }}>Keep track of your groceries by viewing and updating your shopping list</p>
                 <InputShop user={user} />
                 <ShoppingList user={user} />
             </div>

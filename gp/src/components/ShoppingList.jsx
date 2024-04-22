@@ -55,7 +55,7 @@ const ShoppingList = ({ user }) => {
             if (pantryDoc) {
                 await updateDoc(pantryDoc.ref, { quantity: pantryDoc.data().quantity + item.quantity });
             } else {
-                await addDoc(pantryRef, { ingredient: item.ingredient, quantity: item.quantity });
+                await addDoc(pantryRef, { ingredient: item.ingredient, quantity: item.quantity, calories: 0, expDate: null });
             }
 
             await deleteDoc(doc(db, `shoppingList/${user.uid}/ingredients`, itemId));
@@ -64,9 +64,39 @@ const ShoppingList = ({ user }) => {
         fetchShoppingItems();
     };
 
+    const buyAllItems = async () => {
+        const pantryRef = collection(db, 'pantry', user.uid, 'ingredients');
+        
+        for (const item of shoppingItems) {
+            const pantryQuery = query(pantryRef, where("ingredient", "==", item.ingredient));
+            const pantryDocs = await getDocs(pantryQuery);
+            const pantryDoc = pantryDocs.docs[0];
+    
+            if (pantryDoc) {
+                // If the item already exists in pantry, update its quantity
+                await updateDoc(pantryDoc.ref, { quantity: pantryDoc.data().quantity + item.quantity });
+            } else {
+                // If the item doesn't exist in pantry, add it
+                await addDoc(pantryRef, { ingredient: item.ingredient, quantity: item.quantity, calories: item.calories, expDate: null });
+            }
+    
+            // Delete the item from the shopping list
+            await deleteDoc(doc(db, `shoppingList/${user.uid}/ingredients`, item.id));
+        }
+        
+        // Clear selected items and fetch updated shopping items
+        setSelectedItems([]);
+        fetchShoppingItems();
+    };
+    
+
     return (
         <div>
             <h2>Your Shopping List</h2>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
+                <button style={{ width: '250px', fontWeight: 'bold' }} onClick={buyItems}>Buy Selected Items</button>
+                <button style={{ width: '250px', fontWeight: 'bold' }} onClick={buyAllItems}>Buy All Items</button>
+            </div>
             <ul style={{ overflowY: 'auto', maxHeight: '500px' }}>
                 {shoppingItems.map(item => (
                     <li key={item.id}>
@@ -76,12 +106,12 @@ const ShoppingList = ({ user }) => {
                             onChange={() => handleSelectItem(item.id)}
                         />
                         {item.ingredient} - Quantity: {item.quantity}
-                        <button onClick={() => updateQuantity(item.id, item.quantity + 1)} style={{ marginLeft: '5px' , fontSize: '1.2em'}}>+</button>
-                        <button onClick={() => updateQuantity(item.id, item.quantity - 1)} style={{fontSize: '1.2em'}}>-</button>
+
+                        <button style={{paddingLeft: '13px', paddingRight: '13px', marginLeft: '5px', marginRight: '5px'}} onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
+                        <button style={{paddingLeft: '15px', paddingRight: '15px', marginLeft: '5px', marginRight: '5px'}} onClick={() => updateQuantity(item.id, item.quantity - 1)}>-</button>
                     </li>
                 ))}
             </ul>
-            <button onClick={buyItems}>Buy Selected Items</button>
         </div>
     );
 };

@@ -22,10 +22,17 @@ const ShoppingListPage = () => {
         <div>
             <NavigationBar />
             <div className='frame'>
-                <h1>Shopping List</h1>
-                <p>Welcome to the Shopping List</p>
-                <InputShop user={user} />
-                <ShoppingList user={user} />
+                <div className="header-container">
+                    <h1>Shopping List</h1>
+                </div>
+                <div className="content-container" style={{ display: 'flex', gap: '10px'}}>
+                    <div className="left-section">
+                        <ShoppingList user={user} />
+                    </div>
+                    <div className="right-section">
+                        <InputShop user={user} />
+                    </div>
+                </div>
             </div>
         </div>
     );

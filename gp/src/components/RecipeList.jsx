@@ -182,7 +182,7 @@ const RecipeList = ({ user }) => {
                     {filterMakeable ? 'Show All Recipes' : 'Show Available Recipes'}
                 </button>
             </div>
-            <div style={{ overflowY: 'auto', maxHeight: '400px' }}>
+            <div style={{ overflowY: 'auto', maxHeight: '550px' }}>
                 {sortedRecipes.map(recipe => (
                     <div key={recipe.id} onClick={() => setSelectedRecipeId(recipe.id)}>
                         <p style={{ ...(canMakeRecipe(recipe) ? { color: 'green' } : null),
@@ -191,9 +191,9 @@ const RecipeList = ({ user }) => {
                         </p>
                         {selectedRecipeId === recipe.id && (
                             <div>
-                                <ul style={{ marginLeft: '100px', paddingLeft: '10px', marginRight: '100px'}}>
+                                <ul style={{ marginLeft: '100px', paddingLeft: '10px', marginRight: '100px', textAlign: 'left'}}>
                                     {recipe.ingredients.map((ingredient, index) => (
-                                        <li key={index}>
+                                        <li key={index} style={{marginLeft: '30px'}}>
                                             {ingredient.name} - Quantity: {ingredient.quantity}
                                         </li>
                                     ))}

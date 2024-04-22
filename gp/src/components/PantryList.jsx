@@ -47,7 +47,7 @@ const PantryList = ({ user }) => {
     return (
         <div>
             <h2>Your Pantry Items</h2>
-            <ul style={{ overflowY: 'auto', maxHeight: '500px', width: '500px' }}>
+            <ul style={{ overflowY: 'auto', maxHeight: '500px', width: '500px', textAlign: 'left' }}>
                 {pantryItems.map(item => (
                     <li key={item.id}>
                         {item.ingredient} . . . {item.quantity} . . . {item.calories} calories

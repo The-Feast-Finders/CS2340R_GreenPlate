@@ -174,30 +174,6 @@ const RecipeList = ({ user }) => {
             <div className="header-container" style={{ textAlign: 'center', justifyContent: 'center'}}>
                 <h2>Recipe List</h2>
             </div>
-            <div style={{ marginBottom: '20px' }}>
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
-                    <button style={{ width: '250px', fontWeight: 'bold' }} onClick={sortRecipesAlphabetically}>Sort Alphabetically</button>
-                    <button style={{ width: '250px', fontWeight: 'bold' }} onClick={toggleFilterMakeable}>
-                        {filterMakeable ? 'Show All Recipes' : 'Show Available Recipes'}
-                    </button>
-                </div>
-            </div>
-            <div style={{ overflowY: 'auto', maxHeight: '400px' }}>
-                {filteredRecipes.map(recipe => (
-                    <div key={recipe.id} onClick={() => setSelectedRecipeId(recipe.id)} style={{ 
-                        border: 'none', 
-                        borderRadius: '10px',
-                        backgroundColor: '#f0f0f0',
-                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-                        padding: '10px', 
-                        marginBottom: '10px', 
-                        cursor: 'pointer', 
-                        transition: 'background-color 0.3s', // Smooth transition
-                        }}
-                    onMouseEnter={(e) => e.target.style.fontWeight = 'bold'} // Change font weight on mouse enter
-                    onMouseLeave={(e) => e.target.style.fontWeight = 'normal'} // Revert font weight on mouse leave
-                     >
-                        <p style={{ color: 'black', ...(canMakeRecipe(recipe) ? { color: 'green' } : null),
             <div style={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
                 <button style={{ width: '250px', fontWeight: 'bold' }} onClick={toggleSort}>
                     {isSorted ? 'Unsort Recipes' : 'Sort Alphabetically'}

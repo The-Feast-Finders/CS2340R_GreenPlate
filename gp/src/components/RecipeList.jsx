@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { getFirestore, doc, setDoc, collection, addDoc, Timestamp, getDocs, query, where, deleteDoc, onSnapshot} from 'firebase/firestore';
+import { useRecipeStrategy } from './useRecipeStrategy'; // Adjust the path as necessary
+import { sortAlphabetically } from './recipeStrategies';
 
 const RecipeList = ({ user }) => {
     const [recipes, setRecipes] = useState([]);
     const [selectedRecipeId, setSelectedRecipeId] = useState(null);
     const [pantry, setPantry] = useState([]);
     const [filterMakeable, setFilterMakeable] = useState(false); // State to manage filtering
+    const [sortMethod, setSortMethod] = useState(() => sortAlphabetically);
     const [isSorted, setIsSorted] = useState(false);
     const db = getFirestore();
 
@@ -32,7 +35,7 @@ const RecipeList = ({ user }) => {
         };
     }, [user, db]);
     
-
+    const sortedRecipes = useRecipeStrategy(recipes, isSorted ? sortAlphabetically : (recipes) => recipes);
 
     const canMakeRecipe = (recipe) => {
         return recipe.ingredients.every(ingredient => {
@@ -45,9 +48,8 @@ const RecipeList = ({ user }) => {
         return filterMakeable ? recipes.filter(canMakeRecipe) : recipes;
     }, [recipes, pantry, filterMakeable]);
 
-    const sortRecipesAlphabetically = () => {
-        const sortedRecipes = [...recipes].sort((a, b) => a.name.localeCompare(b.name));
-        setRecipes(sortedRecipes);
+    const toggleSort = () => {
+        setIsSorted(!isSorted);
     };
 
     const makeRecipe = async (recipe) => {
@@ -173,13 +175,15 @@ const RecipeList = ({ user }) => {
                 <h2>Recipe List</h2>
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
-                <button style={{ width: '250px', fontWeight: 'bold' }} onClick={sortRecipesAlphabetically}>Sort Alphabetically</button>
+                <button style={{ width: '250px', fontWeight: 'bold' }} onClick={toggleSort}>
+                    {isSorted ? 'Unsort Recipes' : 'Sort Alphabetically'}
+                </button>
                 <button style={{ width: '250px', fontWeight: 'bold' }} onClick={toggleFilterMakeable}>
                     {filterMakeable ? 'Show All Recipes' : 'Show Available Recipes'}
                 </button>
             </div>
             <div style={{ overflowY: 'auto', maxHeight: '400px' }}>
-                {filteredRecipes.map(recipe => (
+                {sortedRecipes.map(recipe => (
                     <div key={recipe.id} onClick={() => setSelectedRecipeId(recipe.id)}>
                         <p style={{ ...(canMakeRecipe(recipe) ? { color: 'green' } : null),
                                     ...(selectedRecipeId === recipe.id ? { fontWeight: 'bold' } : null) }}>
@@ -196,9 +200,9 @@ const RecipeList = ({ user }) => {
                                 </ul>
                                 <div>
                                     {canMakeRecipe(recipe) ? (
-                                            <button onClick={()=>makeRecipe(recipe)}>Cook Recipe</button>
-                                        ) : (
-                                            <button onClick={()=>addMissingIngredients(recipe)}>Add Missing Ingredients</button>
+                                        <button onClick={() => makeRecipe(recipe)}>Cook Recipe</button>
+                                    ) : (
+                                        <button onClick={() => addMissingIngredients(recipe)}>Add Missing Ingredients</button>
                                     )}
                                     <br /><br />
                                 </div>                            

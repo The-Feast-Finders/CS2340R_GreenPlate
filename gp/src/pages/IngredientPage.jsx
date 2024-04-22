@@ -26,6 +26,7 @@ const IngredientPage = () => {
                 <div className="header-container">
                     <h1>Ingredient Page</h1>
                 </div>
+                <p style={{ marginTop: '0' }}>View and update the ingredients in your pantry</p>
                 <PantryList user={user} />
                 <InputIngredient user={user}/>  
             </div>      

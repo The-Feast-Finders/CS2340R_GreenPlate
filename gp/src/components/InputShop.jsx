@@ -16,7 +16,7 @@ const InputShop = ({ user }) => {
 
         setError('');
 
-        const parsedQuantity = parseInt(quantity, 10);  // Rename this variable
+        const parsedQuantity = parseInt(quantity, 10);
         if (parsedQuantity <= 0) {
             setError('');
             return;

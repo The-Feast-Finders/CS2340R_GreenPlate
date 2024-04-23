@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
-import ShoppingList from './ShoppingList'; // Adjust the path as necessary
+import ShoppingList from './ShoppingList';
 import { getFirestore } from 'firebase/firestore';
 
 

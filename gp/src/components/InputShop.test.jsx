@@ -4,7 +4,6 @@ import InputShop from './InputShop'; // Adjust the import path as necessary
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 
-// Mock the Firebase modules used in the component
 jest.mock('firebase/app', () => ({
   initializeApp: jest.fn(),
 }));
@@ -21,19 +20,19 @@ describe('InputShop', () => {
   });
 
   test('renders Ingredient Name input', () => {
-    const user = { uid: '123' }; // Mock user object
+    const user = { uid: '123' };
     render(<InputShop user={user} />);
     expect(screen.getByLabelText(/Ingredient Name/i)).toBeInTheDocument();
   });
 
   test('renders Quantity input', () => {
-    const user = { uid: '123' }; // Mock user object
+    const user = { uid: '123' };
     render(<InputShop user={user} />);
     expect(screen.getByLabelText(/Quantity/i)).toBeInTheDocument();
   });
 
   test('renders Add Ingredient button', () => {
-    const user = { uid: '123' }; // Mock user object
+    const user = { uid: '123' };
     render(<InputShop user={user} />);
     expect(screen.getByRole('button', { name: /Add Ingredient/i })).toBeInTheDocument();
   });

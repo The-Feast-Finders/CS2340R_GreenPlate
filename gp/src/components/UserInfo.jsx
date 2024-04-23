@@ -38,7 +38,7 @@ const UserInfo = ({ user }) => {
 
     const calculateBMR = (weight, height, gender) => {
         if (!weight || !height || !gender) {
-            return null; // Return null if any of the values is missing or invalid
+            return null;
         }
         let BMR = 0;
         if (gender === 'male') {

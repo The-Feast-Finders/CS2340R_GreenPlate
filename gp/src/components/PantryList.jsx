@@ -22,7 +22,7 @@ const PantryList = ({ user }) => {
 
     useEffect(() => {
         fetchPantryItems();
-    }, [user]); // Dependency array ensures this runs when 'user' changes
+    }, [user]);
 
 
     const updateQuantity = async (itemId, newQuantity) => {
@@ -33,7 +33,7 @@ const PantryList = ({ user }) => {
             // Update the item with the new quantity
             await updateDoc(doc(db, `pantry/${user.uid}/ingredients`, itemId), { quantity: newQuantity });
         }
-        fetchPantryItems(); // Refresh the list after update
+        fetchPantryItems();
     };
 
     const handleIncrement = (itemId, currentQuantity) => {

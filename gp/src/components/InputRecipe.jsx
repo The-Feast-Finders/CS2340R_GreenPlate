@@ -53,11 +53,11 @@ const InputRecipe = () => {
         }
     
         try {
-            const newRecipeRef = doc(collection(db, 'cookbook')); // Creates a new document reference with a unique ID
+            const newRecipeRef = doc(collection(db, 'cookbook'));
             await setDoc(newRecipeRef, {
                 name: recipeName,
                 ingredients: ingredients,
-                createdAt: Timestamp.fromDate(new Date()) // Optional: Store creation time
+                createdAt: Timestamp.fromDate(new Date())
             });
     
             setRecipeName('');

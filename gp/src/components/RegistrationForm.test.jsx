@@ -13,15 +13,11 @@ describe('RegistrationForm', () => {
       </Router>
     );
 
-    // Fill in the form fields
     const emailInput = screen.getByLabelText('Email');
     const passwordInput = screen.getByLabelText('Password');
     fireEvent.change(emailInput, { target: { value: 'user@example.com' } });
     fireEvent.change(passwordInput, { target: { value: 'userPassword123' } });
 
-    // Submit the form
-
-    // Assertions
     expect(mockOnRegister).toHaveBeenCalledWith('user@example.com', 'userPassword123');
   });
 });

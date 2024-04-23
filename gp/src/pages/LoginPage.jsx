@@ -11,8 +11,8 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 const LoginPage = () => {
     const auth = getAuth();
-    const [error, setError] = useState(''); // State for storing the error message
-    const navigate = useNavigate(); // Hook for navigation
+    const [error, setError] = useState('');
+    const navigate = useNavigate(); 
 
     const handleLogin = (email, password) => {
         signInWithEmailAndPassword(auth, email, password)

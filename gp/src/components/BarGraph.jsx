@@ -22,7 +22,7 @@ const WeeklyCaloriesBarGraph = () => {
             // Define the start of the week (last 7 days)
             const end = new Date();
             const start = new Date(end);
-            start.setDate(start.getDate() - 7); // Adjust to get the last 7 days
+            start.setDate(start.getDate() - 7);
 
             const mealsRef = collection(db, 'meals');
             const q = query(
@@ -35,17 +35,17 @@ const WeeklyCaloriesBarGraph = () => {
             const unsubscribe = onSnapshot(q, querySnapshot => {
                 const mealsFromLastWeek = querySnapshot.docs.map(doc => ({
                     ...doc.data(),
-                    timestamp: doc.data().timestamp.toDate() // Assuming timestamp is a Firestore Timestamp
+                    timestamp: doc.data().timestamp.toDate()
                 }));
 
-                // Group meals by day and sum calories
+                // group meals by day and sum calories
                 const caloriesByDay = mealsFromLastWeek.reduce((acc, meal) => {
                     const day = meal.timestamp.toLocaleDateString();
                     acc[day] = (acc[day] || 0) + meal.calories;
                     return acc;
                 }, {});
 
-                // Prepare chart data
+                // data
                 const labels = Object.keys(caloriesByDay);
                 const data = Object.values(caloriesByDay);
                 const backgroundColors = labels.map((_, index) => `hsl(${index / labels.length * 360}, 70%, 50%)`);

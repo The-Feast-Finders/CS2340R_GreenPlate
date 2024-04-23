@@ -32,7 +32,6 @@ describe('IngredientPage', () => {
     render(<IngredientPage />);
 
     await waitFor(() => {
-      // Correct the expectation to match the mocks
       expect(screen.getByText('NavigationBar')).toBeInTheDocument();
       
     });

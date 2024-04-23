@@ -3,7 +3,6 @@ import { render, screen } from '@testing-library/react';
 import ShoppingListPage from './ShoppingListPage';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
-// Mocking the necessary imports
 jest.mock('firebase/auth', () => ({
     getAuth: jest.fn(),
     onAuthStateChanged: jest.fn()
@@ -14,7 +13,6 @@ jest.mock('../components/InputShop', () => () => <div>InputShop Mock</div>);
 jest.mock('../components/ShoppingList', () => () => <div>ShoppingList Mock</div>);
 
 describe('ShoppingListPage', () => {
-    // Setting up a mock for onAuthStateChanged to simulate a user being set
     beforeEach(() => {
         getAuth.mockImplementation(() => ({}));
         onAuthStateChanged.mockImplementation((auth, callback) => {

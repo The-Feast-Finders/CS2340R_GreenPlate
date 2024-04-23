@@ -1,9 +1,7 @@
-// Import dependencies
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import RecipeList from './RecipeList';
 
-// Mock Firebase modules
 jest.mock('firebase/app', () => ({
   initializeApp: jest.fn().mockReturnValue({
     // Mock other Firebase services as needed
@@ -13,7 +11,6 @@ jest.mock('firebase/app', () => ({
           get: jest.fn().mockResolvedValue({
             exists: true,
             data: () => ({
-              // Mocked data structure returned by Firestore
             }),
           }),
           onSnapshot: jest.fn(),
@@ -33,9 +30,7 @@ jest.mock('firebase/firestore');
 describe('RecipeList', () => {
   it('renders the header correctly', async () => {
     render(<RecipeList />);
-    // Adjust the expected text to match what's actually rendered
     expect(await screen.findByText('Recipe List')).toBeInTheDocument();
   });
 
-  // Additional tests can go here
 });

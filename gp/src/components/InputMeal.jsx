@@ -12,7 +12,7 @@ const InputMeal = ({ user }) => {
             const mealData = {
                 name: mealName,
                 calories: parseInt(calories, 10),
-                timestamp: Timestamp.fromDate(new Date()) // Save the current time as a Firestore Timestamp
+                timestamp: Timestamp.fromDate(new Date())
             };
 
             // Update user's meal array

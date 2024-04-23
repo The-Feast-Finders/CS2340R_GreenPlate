@@ -2,14 +2,13 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-import InputData from './InputData'; // Make sure this path is correct for your project
+import InputData from './InputData';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-// Mocking modules for tests
 jest.mock('firebase/firestore', () => ({
     getFirestore: jest.fn(),
     doc: jest.fn(),
-    setDoc: jest.fn(() => Promise.resolve()) // Simulates a successful save
+    setDoc: jest.fn(() => Promise.resolve())
 }));
 
 describe('InputData Component', () => {

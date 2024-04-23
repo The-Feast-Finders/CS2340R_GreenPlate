@@ -5,7 +5,7 @@ import InputMealPage from './InputMealPage';
 
 jest.mock('firebase/auth', () => ({
     getAuth: jest.fn(),
-    onAuthStateChanged: jest.fn(() => jest.fn()) // returns a mock unsubscribe function
+    onAuthStateChanged: jest.fn(() => jest.fn())
 }));
   
 jest.mock('../components/NavigationBar', () => () => <div>NavigationBarMock</div>);

@@ -11,17 +11,14 @@ const InputIngredient = ({ user }) => {
 
     const db = getFirestore();
 
-    // Toggle the form view
     const toggleForm = () => setShowForm(!showForm);
 
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        // Reset error message
         setError('');
 
-        // Validate the quantity
         const quantityNum = parseInt(quantity, 10);
         if (quantityNum <= 0) {
             setError('Quantity must be a positive number.');
@@ -57,7 +54,7 @@ const InputIngredient = ({ user }) => {
 
             try {
                 await addDoc(pantryRef, ingredientData);
-                toggleForm(); // Close the form
+                toggleForm();
             } catch (error) {
                 setError('Error adding ingredient to pantry.');
             }

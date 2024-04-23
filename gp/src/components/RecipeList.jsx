@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { getFirestore, doc, setDoc, collection, addDoc, Timestamp, getDocs, query, where, deleteDoc, onSnapshot} from 'firebase/firestore';
-import { useRecipeStrategy } from './useRecipeStrategy'; // Adjust the path as necessary
+import { useRecipeStrategy } from './useRecipeStrategy';
 import { sortAlphabetically } from './recipeStrategies';
 
 const RecipeList = ({ user }) => {
     const [recipes, setRecipes] = useState([]);
     const [selectedRecipeId, setSelectedRecipeId] = useState(null);
     const [pantry, setPantry] = useState([]);
-    const [filterMakeable, setFilterMakeable] = useState(false); // State to manage filtering
+    const [filterMakeable, setFilterMakeable] = useState(false);
     const [sortMethod, setSortMethod] = useState(() => sortAlphabetically);
     const [isSorted, setIsSorted] = useState(false);
     const db = getFirestore();
@@ -28,7 +28,6 @@ const RecipeList = ({ user }) => {
             });
         }
     
-        // Cleanup function to unsubscribe from the snapshots when the component unmounts
         return () => {
             unsubscribeRecipes();
             unsubscribePantry();
@@ -76,7 +75,7 @@ const RecipeList = ({ user }) => {
     
                 if (!pantryItem) {
                     console.log(`Ingredient ${ingredient.name} not found in pantry or missing ID.`);
-                    continue; // Skip to next iteration if ingredient not found in pantry
+                    continue;
                 }
 
                 const newQuantity = Math.max(0, pantryItem.quantity - ingredient.quantity);
@@ -90,7 +89,7 @@ const RecipeList = ({ user }) => {
                     await setDoc(doc(pantryRef, pantryItem.id), ingredientData);
                     console.log(`Pantry updated for ingredient: ${ingredient.name}`);
                 } else {
-                    await deleteDoc(doc(pantryRef, pantryItem.id)); // Delete the document if quantity is 0
+                    await deleteDoc(doc(pantryRef, pantryItem.id));
                     console.log(`Pantry item for ${ingredient.name} deleted as quantity went to zero.`);
                 }
             }
@@ -138,7 +137,7 @@ const RecipeList = ({ user }) => {
             const pantryItem = pantry.find(pantryIngredient => pantryIngredient.ingredient.toLowerCase() === ingredient.name.toLowerCase());
     
             const requiredQuantity = pantryItem ? Math.max(0, ingredient.quantity - pantryItem.quantity) : ingredient.quantity;
-            if (requiredQuantity <= 0) continue; // Skip if no additional quantity is needed
+            if (requiredQuantity <= 0) continue;
     
             const shoppingListRef = collection(db, `shoppingList/${user.uid}/ingredients`);
             const q = query(shoppingListRef, where("ingredient", "==", ingredient.name.toLowerCase()));

@@ -12,7 +12,6 @@ describe('LoginForm', () => {
       </Router>
     );
 
-    // Fill in the form
     fireEvent.change(screen.getByLabelText(/Email/i), {
       target: { value: 'test@example.com' }
     });
@@ -20,7 +19,6 @@ describe('LoginForm', () => {
       target: { value: 'password123' }
     });
 
-    // Submit the form
     fireEvent.click(screen.getByRole('button', { name: /login/i }));
 
     expect(mockOnLogin).toHaveBeenCalledWith('test@example.com', 'password123');

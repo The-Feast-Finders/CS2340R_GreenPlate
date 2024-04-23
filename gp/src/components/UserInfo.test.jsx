@@ -1,10 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import UserInfo from './UserInfo'; // Adjust the import path as necessary
+import UserInfo from './UserInfo';
 
 test('UserInfo renders initial loading state correctly', () => {
   render(<UserInfo />);
 
-  // Check for static content
   expect(screen.getByText('User Information:')).toBeInTheDocument();
 
  

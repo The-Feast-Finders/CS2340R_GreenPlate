@@ -8,7 +8,7 @@ const ShoppingList = ({ user }) => {
 
     useEffect(() => {
         fetchShoppingItems();
-    }, [user]); // Fetch when user changes
+    }, [user]);
 
     const fetchShoppingItems = async () => {
         if (user) {

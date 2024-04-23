@@ -43,7 +43,6 @@ describe('InputData Component', () => {
         await userEvent.selectOptions(getByLabelText(/Gender:/i), 'male');
         await userEvent.type(getByLabelText(/Height:/i), '180');
 
-        // Assuming the button's type attribute is 'submit'
         fireEvent.click(getByRole('button', { name: /Update/i }));
 
         

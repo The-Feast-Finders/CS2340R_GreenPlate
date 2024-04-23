@@ -19,7 +19,7 @@ const PieGraph = () => {
     useEffect(() => {
         if (user) {
             const end = new Date();
-            const start = new Date(end.getTime() - (24 * 60 * 60 * 1000)); // 24 hours ago
+            const start = new Date(end.getTime() - (24 * 60 * 60 * 1000));
 
             const mealsRef = collection(db, 'meals');
             const q = query(
@@ -49,7 +49,7 @@ const PieGraph = () => {
                 console.error("Error fetching meals: ", error);
             });
 
-            // Cleanup subscription on unmount
+            
             return () => unsubscribe();
         }
     }, [user, db]);
